@@ -1,0 +1,39 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Marketplace from './pages/Marketplace';
+import Timetable from './pages/Timetable';
+import './styles/globals.css';
+
+// Placeholder pages — build these next
+function ComingSoon({ title }) {
+  return (
+    <div style={{ padding: '80px 24px', textAlign: 'center' }}>
+      <p style={{ fontSize: 48, marginBottom: 16 }}>🚧</p>
+      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 28, color: 'var(--espresso)', marginBottom: 8 }}>
+        {title}
+      </h2>
+      <p style={{ color: 'var(--text-secondary)' }}>Coming soon — this page is in progress.</p>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/"            element={<Home />} />
+        <Route path="/marketplace" element={<Marketplace />} />
+        <Route path="/timetable"   element={<Timetable />} />
+        <Route path="/events"      element={<ComingSoon title="Society & Events" />} />
+        <Route path="/mess"        element={<ComingSoon title="Hostel Mess Menu" />} />
+        <Route path="/fruits"      element={<ComingSoon title="Fresh Fruits Delivery" />} />
+        <Route path="/calendar"    element={<ComingSoon title="Academic Calendar" />} />
+        <Route path="/register"    element={<ComingSoon title="Online Registration" />} />
+        <Route path="/login"       element={<ComingSoon title="Log In" />} />
+        <Route path="/signup"      element={<ComingSoon title="Sign Up" />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
