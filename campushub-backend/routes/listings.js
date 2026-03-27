@@ -20,4 +20,13 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.post('/', auth, async (req, res) => {
+  try {
+    const listing = await Listing.create({ ...req.body, seller: req.user.id });
+    res.status(201).json(listing);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
