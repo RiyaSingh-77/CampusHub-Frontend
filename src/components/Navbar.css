@@ -114,3 +114,27 @@
   .navbar__links.open { display: flex; }
   .navbar__link { padding: 10px 0; font-size: 16px; }
 }
+.navbar__user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--amber);
+  color: var(--espresso);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__username {
+  font-size: 14px;
+  font-weight: 500;
+  color: #d4c5b0;
+}
