@@ -279,3 +279,14 @@
   background: var(--terra-light);
   color: var(--terra);
 }
+.tt-delete-btn {
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--terra-light);
+  color: var(--terra);
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #f5c6c6;
+  transition: background .15s;
+}
+.tt-delete-btn:hover { background: #fbd5d5; }

@@ -82,4 +82,27 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
+// DELETE /api/timetable/delete-pdf
+router.delete('/delete-pdf', auth, async (req, res) => {
+  try {
+    const { branch, year, section } = req.query;
+
+    const timetable = await Timetable.findOne({
+      branch, year: Number(year), section
+    });
+
+    if (!timetable) return res.status(404).json({ message: 'Timetable not found' });
+    if (!timetable.pdfUrl) return res.status(400).json({ message: 'No PDF to delete' });
+
+    // Remove PDF URL from DB
+    timetable.pdfUrl = null;
+    timetable.uploadedBy = null;
+    await timetable.save();
+
+    res.json({ message: 'PDF removed successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

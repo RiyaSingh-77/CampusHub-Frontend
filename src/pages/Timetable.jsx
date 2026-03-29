@@ -13,18 +13,18 @@ const DAYS     = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 const PERIODS  = ['9:00-9:50', '10:00-10:50', '11:00-11:50', '12:00-12:50', '1:00-1:50', '2:00-2:50'];
 
 export default function Timetable() {
-  const [branch, setBranch]     = useState('CSE');
-  const [year, setYear]         = useState(1);
-  const [section, setSection]   = useState('A');
+  const [branch, setBranch]       = useState('CSE');
+  const [year, setYear]           = useState(1);
+  const [section, setSection]     = useState('A');
   const [timetable, setTimetable] = useState(null);
-  const [loading, setLoading]   = useState(false);
+  const [loading, setLoading]     = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadMsg, setUploadMsg] = useState('');
   const [showUpload, setShowUpload] = useState(false);
   const fileRef = useRef();
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchTimetable = async () => {
       setLoading(true);
       try {
         const res = await api.get('/timetable', { params: { branch, year, section } });
@@ -35,7 +35,7 @@ export default function Timetable() {
         setLoading(false);
       }
     };
-    fetch();
+    fetchTimetable();
   }, [branch, year, section]);
 
   const handlePdfUpload = async e => {
@@ -68,6 +68,18 @@ export default function Timetable() {
       setUploadMsg(err.response?.data?.message || 'Upload failed. Are you logged in?');
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleDeletePdf = async () => {
+    if (!window.confirm('Remove this timetable PDF?')) return;
+    try {
+      await api.delete('/timetable/delete-pdf', {
+        params: { branch, year, section }
+      });
+      setTimetable(prev => ({ ...prev, pdfUrl: null }));
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to delete PDF');
     }
   };
 
@@ -113,22 +125,27 @@ export default function Timetable() {
           </div>
         )}
 
-        {/* PDF viewer if PDF exists */}
+        {/* PDF viewer */}
         {!loading && timetable?.pdfUrl && (
           <div className="tt-card">
             <div className="tt-card__header">
               <h2 className="tt-card__heading">
                 {branch} — Year {year}, Section {section}
               </h2>
-              {timetable.uploadedBy && (
-                <span className="tt-uploaded-by">
-                  Uploaded by {timetable.uploadedBy.name}
-                </span>
-              )}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                {timetable.uploadedBy && (
+                  <span className="tt-uploaded-by">
+                    Uploaded by {timetable.uploadedBy.name}
+                  </span>
+                )}
+                <button className="tt-delete-btn" onClick={handleDeletePdf}>
+                  🗑️ Remove PDF
+                </button>
+              </div>
             </div>
             <div className="tt-pdf-viewer">
               <iframe
-                src={timetable.pdfUrl}
+                src={`${timetable.pdfUrl}?tr=orig-true`}
                 title="Timetable PDF"
                 className="tt-pdf-frame"
               />
