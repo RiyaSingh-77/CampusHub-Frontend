@@ -30,6 +30,12 @@ export default function Marketplace() {
   const [search, setSearch]       = useState('');
   const [category, setCategory]   = useState('All Items');
   const [type, setType]           = useState('All Types');
+  const [showModal, setShowModal] = useState(false);
+  const [posting, setPosting]     = useState(false);
+  const [form, setForm]           = useState({
+    title: '', description: '', category: 'lab-coat',
+    type: 'sell', price: '', condition: 'like-new',
+  });
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -49,6 +55,22 @@ export default function Marketplace() {
     };
     fetchListings();
   }, [search, category, type]);
+
+  const handlePost = async e => {
+    e.preventDefault();
+    setPosting(true);
+    try {
+      await api.post('/listings', { ...form, price: Number(form.price) });
+      setShowModal(false);
+      setForm({ title: '', description: '', category: 'lab-coat', type: 'sell', price: '', condition: 'like-new' });
+      const res = await api.get('/listings');
+      setListings(res.data);
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to post listing. Are you logged in?');
+    } finally {
+      setPosting(false);
+    }
+  };
 
   return (
     <div className="marketplace">
@@ -75,7 +97,7 @@ export default function Marketplace() {
               className="search-box__input"
             />
           </div>
-          <button className="post-btn">
+          <button className="post-btn" onClick={() => setShowModal(true)}>
             <span>＋</span> Post an Item
           </button>
         </div>
@@ -158,7 +180,12 @@ export default function Marketplace() {
                     </span>
                   </div>
 
-                  <button className="listing-card__contact">Contact Seller</button>
+                  <button
+                    className="listing-card__contact"
+                    onClick={() => alert(`Contact ${l.seller?.name} at: ${l.seller?.phone || 'No phone available'}`)}
+                  >
+                    Contact Seller
+                  </button>
                 </div>
               );
             })}
@@ -169,6 +196,89 @@ export default function Marketplace() {
           <div className="empty-state">
             <span style={{ fontSize: 40 }}>🔍</span>
             <p>No listings found. Try a different search or category.</p>
+          </div>
+        )}
+
+        {/* Post Listing Modal */}
+        {showModal && (
+          <div className="modal-overlay" onClick={() => setShowModal(false)}>
+            <div className="modal" onClick={e => e.stopPropagation()}>
+              <div className="modal__header">
+                <h2 className="modal__title">Post an Item</h2>
+                <button className="modal__close" onClick={() => setShowModal(false)}>✕</button>
+              </div>
+
+              <form onSubmit={handlePost} className="modal__form">
+                <div className="form-group">
+                  <label>Title</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Chemistry Lab Coat - White"
+                    value={form.title}
+                    onChange={e => setForm({ ...form, title: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Description</label>
+                  <textarea
+                    placeholder="Condition details, size, how long used..."
+                    value={form.description}
+                    onChange={e => setForm({ ...form, description: e.target.value })}
+                    rows={3}
+                  />
+                </div>
+
+                <div className="modal__row">
+                  <div className="form-group">
+                    <label>Category</label>
+                    <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
+                      <option value="lab-coat">Lab Coat</option>
+                      <option value="drafter">Drafter</option>
+                      <option value="books">Books</option>
+                      <option value="clothes">Clothes</option>
+                      <option value="electronics">Electronics</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Type</label>
+                    <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}>
+                      <option value="sell">For Sale</option>
+                      <option value="lend">For Lending</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="modal__row">
+                  <div className="form-group">
+                    <label>Price (₹)</label>
+                    <input
+                      type="number"
+                      placeholder="150"
+                      value={form.price}
+                      onChange={e => setForm({ ...form, price: e.target.value })}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Condition</label>
+                    <select value={form.condition} onChange={e => setForm({ ...form, condition: e.target.value })}>
+                      <option value="like-new">Like New</option>
+                      <option value="good">Good</option>
+                      <option value="fair">Fair</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button type="submit" className="auth-btn" disabled={posting}>
+                  {posting ? 'Posting...' : 'Post Listing'}
+                </button>
+              </form>
+            </div>
           </div>
         )}
 
