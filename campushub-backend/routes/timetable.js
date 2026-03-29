@@ -1,9 +1,9 @@
-const express    = require('express');
-const router     = express.Router();
-const auth       = require('../middleware/auth');
-const Timetable  = require('../models/Timetable');
-const multer     = require('multer');
-const ImageKit   = require('imagekit');
+const express   = require('express');
+const router    = express.Router();
+const auth      = require('../middleware/auth');
+const Timetable = require('../models/Timetable');
+const multer    = require('multer');
+const ImageKit  = require('imagekit');
 
 const imagekit = new ImageKit({
   publicKey:   process.env.IMAGEKIT_PUBLIC_KEY,
@@ -30,41 +30,45 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /api/timetable/upload-pdf  (auth required)
+// POST /api/timetable/upload-pdf
 router.post('/upload-pdf', auth, upload.single('pdf'), async (req, res) => {
   try {
     const { branch, year, section } = req.body;
-    if (!branch || !year || !section) {
+    if (!branch || !year || !section)
       return res.status(400).json({ message: 'Branch, year and section are required' });
-    }
 
-    // Upload PDF to ImageKit
-    const uploaded = await imagekit.upload({
-      file:     req.file.buffer,
+    const fileBase64 = req.file.buffer.toString('base64');
+
+    imagekit.upload({
+      file:     fileBase64,
       fileName: `timetable_${branch}_year${year}_${section}_${Date.now()}.pdf`,
       folder:   '/timetables',
+    }, async (error, result) => {
+      if (error) {
+        return res.status(500).json({ message: error.message });
+      }
+
+      const timetable = await Timetable.findOneAndUpdate(
+        { branch, year: Number(year), section },
+        {
+          pdfUrl:     result.url,
+          uploadedBy: req.user.id,
+          branch,
+          year:       Number(year),
+          section,
+        },
+        { upsert: true, new: true }
+      );
+
+      res.json({ message: 'PDF uploaded successfully', pdfUrl: result.url, timetable });
     });
 
-    // Upsert — update if exists, create if not
-    const timetable = await Timetable.findOneAndUpdate(
-      { branch, year: Number(year), section },
-      {
-        pdfUrl:     uploaded.url,
-        uploadedBy: req.user.id,
-        branch,
-        year:       Number(year),
-        section,
-      },
-      { upsert: true, new: true }
-    );
-
-    res.json({ message: 'PDF uploaded successfully', pdfUrl: uploaded.url, timetable });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// POST /api/timetable  (admin only — for structured data)
+// POST /api/timetable (admin - structured data)
 router.post('/', auth, async (req, res) => {
   try {
     const timetable = await Timetable.findOneAndUpdate(
