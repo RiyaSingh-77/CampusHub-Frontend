@@ -1,6 +1,6 @@
 const express   = require('express');
 const router    = express.Router();
-const auth      = require('../middleware/auth');
+const { requireAuth: auth } = require('../middleware/auth');
 const Timetable = require('../models/Timetable');
 const multer    = require('multer');
 const ImageKit  = require('imagekit');

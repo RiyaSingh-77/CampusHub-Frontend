@@ -1,7 +1,8 @@
 const express  = require('express');
 const router   = express.Router();
-const auth     = require('../middleware/auth');
+const { requireAuth: auth } = require('../middleware/auth');
 const Listing  = require('../models/Listing');
+
 
 // GET /api/listings  (public)
 router.get('/', async (req, res) => {

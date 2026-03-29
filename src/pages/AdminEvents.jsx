@@ -1,17 +1,40 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import './AdminEvents.css';
 
-const ADMIN_PASSWORD = 'campushub2026'; // change this to whatever you want
-
 export default function AdminEvents() {
-  const [authed, setAuthed]       = useState(false);
-  const [pwInput, setPwInput]     = useState('');
-  const [pwError, setPwError]     = useState('');
-  const [events, setEvents]       = useState([]);
-  const [loading, setLoading]     = useState(false);
-  const [filter, setFilter]       = useState('pending'); // pending | approved | rejected
-  const [actionId, setActionId]   = useState(null); // which card is loading
+  const navigate = useNavigate();
+
+  const [authed, setAuthed]     = useState(false);
+  const [checking, setChecking] = useState(true); // checking token on mount
+  const [events, setEvents]     = useState([]);
+  const [loading, setLoading]   = useState(false);
+  const [filter, setFilter]     = useState('pending');
+  const [actionId, setActionId] = useState(null);
+
+  // ── On mount: check if logged-in user is admin ──
+  useEffect(() => {
+    const stored = localStorage.getItem('user');
+    if (!stored) {
+      setChecking(false);
+      return;
+    }
+    try {
+      const user = JSON.parse(stored);
+      if (user?.role === 'admin') {
+        setAuthed(true);
+      }
+    } catch {
+      // malformed storage
+    }
+    setChecking(false);
+  }, []);
+
+  // ── Fetch all submissions once authed ──
+  useEffect(() => {
+    if (authed) fetchEvents();
+  }, [authed]);
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -19,22 +42,12 @@ export default function AdminEvents() {
       const res = await api.get('/events/admin/all');
       setEvents(res.data);
     } catch (err) {
+      if (err.response?.status === 403) {
+        setAuthed(false); // token valid but not admin
+      }
       console.error(err);
     } finally {
       setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (authed) fetchEvents();
-  }, [authed]);
-
-  const handleLogin = e => {
-    e.preventDefault();
-    if (pwInput === ADMIN_PASSWORD) {
-      setAuthed(true);
-    } else {
-      setPwError('Incorrect password.');
     }
   };
 
@@ -64,32 +77,26 @@ export default function AdminEvents() {
   };
 
   const filtered = events.filter(e => e.status === filter);
-
   const counts = {
     pending:  events.filter(e => e.status === 'pending').length,
     approved: events.filter(e => e.status === 'approved').length,
     rejected: events.filter(e => e.status === 'rejected').length,
   };
 
-  // ── Password gate ──
+  // ── Still checking localStorage ──
+  if (checking) return null;
+
+  // ── Not admin ──
   if (!authed) {
     return (
       <div className="admin-gate">
         <div className="admin-gate__card">
-          <div className="admin-gate__icon">🔒</div>
-          <h2>Admin Access</h2>
-          <p>Enter the admin password to manage event submissions.</p>
-          <form onSubmit={handleLogin} className="admin-gate__form">
-            <input
-              type="password"
-              placeholder="Password"
-              value={pwInput}
-              onChange={e => setPwInput(e.target.value)}
-              autoFocus
-            />
-            {pwError && <p className="admin-gate__error">{pwError}</p>}
-            <button type="submit" className="auth-btn">Enter</button>
-          </form>
+          <div className="admin-gate__icon">🚫</div>
+          <h2>Access Denied</h2>
+          <p>You need to be logged in as an admin to view this page.</p>
+          <button className="auth-btn" onClick={() => navigate('/login')}>
+            Go to Login
+          </button>
         </div>
       </div>
     );
@@ -137,10 +144,8 @@ export default function AdminEvents() {
           ))}
         </div>
 
-        {/* Loading */}
         {loading && <div className="empty-state"><p>Loading submissions...</p></div>}
 
-        {/* Empty */}
         {!loading && filtered.length === 0 && (
           <div className="empty-state">
             <span style={{ fontSize: 36 }}>📭</span>
@@ -148,24 +153,18 @@ export default function AdminEvents() {
           </div>
         )}
 
-        {/* Submission cards */}
         {!loading && filtered.length > 0 && (
           <div className="admin-cards">
             {filtered.map(ev => (
               <div key={ev._id} className={`admin-card admin-card--${ev.status}`}>
 
-                {/* Status badge */}
-                <span className={`admin-badge admin-badge--${ev.status}`}>
-                  {ev.status}
-                </span>
+                <span className={`admin-badge admin-badge--${ev.status}`}>{ev.status}</span>
 
-                {/* Society row */}
                 <div className="admin-card__society">
                   <strong>{ev.societyAbbr}</strong> — {ev.societyName}
                   <span className="admin-card__email">✉️ {ev.contactEmail}</span>
                 </div>
 
-                {/* Event details */}
                 <h3 className="admin-card__title">{ev.eventTitle}</h3>
                 <p className="admin-card__desc">{ev.eventDesc}</p>
 
@@ -184,35 +183,26 @@ export default function AdminEvents() {
                   Submitted: {new Date(ev.createdAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                 </p>
 
-                {/* Actions */}
                 <div className="admin-card__actions">
                   {ev.status !== 'approved' && (
-                    <button
-                      className="admin-btn admin-btn--approve"
+                    <button className="admin-btn admin-btn--approve"
                       onClick={() => handleAction(ev._id, 'approved')}
-                      disabled={actionId === ev._id}
-                    >
+                      disabled={actionId === ev._id}>
                       ✅ Approve
                     </button>
                   )}
                   {ev.status !== 'rejected' && (
-                    <button
-                      className="admin-btn admin-btn--reject"
+                    <button className="admin-btn admin-btn--reject"
                       onClick={() => handleAction(ev._id, 'rejected')}
-                      disabled={actionId === ev._id}
-                    >
+                      disabled={actionId === ev._id}>
                       ❌ Reject
                     </button>
                   )}
-                  {ev.status === 'pending' && (
-                    <button
-                      className="admin-btn admin-btn--delete"
-                      onClick={() => handleDelete(ev._id)}
-                      disabled={actionId === ev._id}
-                    >
-                      🗑 Delete
-                    </button>
-                  )}
+                  <button className="admin-btn admin-btn--delete"
+                    onClick={() => handleDelete(ev._id)}
+                    disabled={actionId === ev._id}>
+                    🗑 Delete
+                  </button>
                 </div>
 
               </div>

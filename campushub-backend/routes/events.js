@@ -1,12 +1,13 @@
 const express = require('express');
 const router  = express.Router();
 const Event   = require('../models/Event');
+const { requireAuth, requireAdmin } = require('../middleware/auth');
 
 // ─────────────────────────────────────────
 // PUBLIC
 // ─────────────────────────────────────────
 
-// GET /api/events  →  all approved events (shown on /events page)
+// GET /api/events  →  all approved events
 router.get('/', async (req, res) => {
   try {
     const events = await Event.find({ status: 'approved' }).sort({ dateStart: 1 });
@@ -16,7 +17,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /api/events  →  society submits a new event (status: pending)
+// POST /api/events  →  anyone can submit (status: pending)
 router.post('/', async (req, res) => {
   try {
     const event = await Event.create({ ...req.body, status: 'pending' });
@@ -27,11 +28,11 @@ router.post('/', async (req, res) => {
 });
 
 // ─────────────────────────────────────────
-// ADMIN
+// ADMIN — JWT protected, role: 'admin' only
 // ─────────────────────────────────────────
 
-// GET /api/events/admin/all  →  all submissions regardless of status
-router.get('/admin/all', async (req, res) => {
+// GET /api/events/admin/all
+router.get('/admin/all', requireAuth, requireAdmin, async (req, res) => {
   try {
     const events = await Event.find().sort({ createdAt: -1 });
     res.json(events);
@@ -40,8 +41,8 @@ router.get('/admin/all', async (req, res) => {
   }
 });
 
-// PATCH /api/events/admin/:id  →  approve or reject
-router.patch('/admin/:id', async (req, res) => {
+// PATCH /api/events/admin/:id  →  approve / reject / revert to pending
+router.patch('/admin/:id', requireAuth, requireAdmin, async (req, res) => {
   try {
     const { status } = req.body;
     if (!['approved', 'rejected', 'pending'].includes(status)) {
@@ -59,8 +60,8 @@ router.patch('/admin/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/events/admin/:id  →  permanently delete
-router.delete('/admin/:id', async (req, res) => {
+// DELETE /api/events/admin/:id
+router.delete('/admin/:id', requireAuth, requireAdmin, async (req, res) => {
   try {
     const event = await Event.findByIdAndDelete(req.params.id);
     if (!event) return res.status(404).json({ message: 'Event not found.' });
