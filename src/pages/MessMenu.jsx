@@ -127,7 +127,7 @@ export default function MessMenu() {
       {/* Hero */}
       <div style={styles.hero}>
         <h1 style={styles.heroTitle}>
-          Mess <span style={{ color: "#6366F1" }}>Menu</span>
+          Mess <span style={{ color: "#F59E0B" }}>Menu</span>
         </h1>
         <p style={styles.heroSub}>
           Check your hostel's weekly mess menu.
@@ -141,7 +141,7 @@ export default function MessMenu() {
           </span>
           {!user && (
             <span style={styles.loginHint}>
-              <a href="/login" style={{ color: "#6366F1" }}>Log in</a> as mess incharge to edit
+              <a href="/login" style={{ color: "#F59E0B" }}>Log in</a> as mess incharge to edit
             </span>
           )}
         </div>
@@ -295,7 +295,7 @@ const styles = {
   },
   inchargeBadge: {
     background: "#EEF2FF",
-    color: "#6366F1",
+    color: "#F59E0B",
     padding: "2px 10px",
     borderRadius: 20,
     fontSize: 13,
@@ -318,12 +318,12 @@ const styles = {
   },
   roleChipIncharge: {
     background: "#EEF2FF",
-    color: "#6366F1",
+    color: "#F59E0B",
     padding: "8px 20px",
     borderRadius: 50,
     fontWeight: 600,
     fontSize: 14,
-    border: "1.5px solid #6366F1",
+    border: "1.5px solid #F59E0B",
   },
   loginHint: {
     fontSize: 13,
@@ -349,8 +349,8 @@ const styles = {
   },
   hostelTabActive: {
     background: "#EEF2FF",
-    borderColor: "#6366F1",
-    color: "#6366F1",
+    borderColor: "#F59E0B",
+    color: "#F59E0B",
     fontWeight: 700,
   },
   inchargeBar: {
@@ -381,8 +381,8 @@ const styles = {
     transition: "all 0.2s",
   },
   dayTabActive: {
-    background: "#6366F1",
-    borderColor: "#6366F1",
+    background: "#F59E0B",
+    borderColor: "#F59E0B",
     color: "#fff",
     fontWeight: 700,
   },
@@ -439,7 +439,7 @@ const styles = {
     color: "#374151",
   },
   btnPrimary: {
-    background: "#6366F1",
+    background: "#F59E0B",
     color: "#fff",
     border: "none",
     padding: "10px 22px",
@@ -488,7 +488,7 @@ const styles = {
     maxWidth: "100%",
     maxHeight: 300,
     borderRadius: 12,
-    border: "2px dashed #6366F1",
+    border: "2px dashed #F59E0B",
   },
   menuImageWrap: {
     textAlign: "center",
