@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Marketplace from './pages/Marketplace';
 import Timetable from './pages/Timetable';
+import Events from './pages/Events';
 import './styles/globals.css';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -28,7 +29,7 @@ export default function App() {
         <Route path="/"            element={<Home />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/timetable"   element={<Timetable />} />
-        <Route path="/events"      element={<ComingSoon title="Society & Events" />} />
+        <Route path="/events"      element={<Events />} />
         <Route path="/mess"        element={<ComingSoon title="Hostel Mess Menu" />} />
         <Route path="/fruits"      element={<ComingSoon title="Fresh Fruits Delivery" />} />
         <Route path="/calendar"    element={<ComingSoon title="Academic Calendar" />} />

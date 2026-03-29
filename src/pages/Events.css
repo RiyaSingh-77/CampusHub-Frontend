@@ -1,0 +1,358 @@
+/* ═══════════════════════════════════════════
+   Events.css  — matches CampusHub design system
+   Uses: --espresso, --amber, --honey, --surface,
+         --border, --radius-*, --shadow-*, --text-*
+   ═══════════════════════════════════════════ */
+
+.events-page {
+  padding: 40px 0 80px;
+}
+
+/* ── Hero Header ── */
+.events-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.events-hero__icon {
+  font-size: 40px;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* ── Toolbar (search + CTA button) ── */
+.events-toolbar {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.events-toolbar .search-box {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* ── Societies list ── */
+.societies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  margin-top: 28px;
+}
+
+/* ── Society Section ── */
+.society-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.society-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 24px 16px;
+}
+
+.society-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.society-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.society-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.society-abbr {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.society-dash {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.society-fullname {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.society-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* Colored top-border bar inside society card */
+.society-bar {
+  height: 3px;
+  width: 100%;
+  opacity: 0.75;
+}
+
+/* ── Events list inside society ── */
+.events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Event Card ── */
+.event-card {
+  display: flex;
+  border-top: 1px solid var(--border);
+}
+
+.event-card__accent {
+  width: 4px;
+  flex-shrink: 0;
+  border-radius: 0 0 0 var(--radius-lg);
+  opacity: 0.8;
+}
+
+.event-card__body {
+  flex: 1;
+  padding: 20px 24px;
+}
+
+.event-card__title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--espresso);
+  margin-bottom: 6px;
+}
+
+.event-card__desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 14px;
+  max-width: 680px;
+}
+
+/* Meta: date + venue */
+.event-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.event-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.event-meta-icon {
+  font-size: 14px;
+}
+
+/* Tags */
+.event-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 16px;
+}
+
+.event-tag {
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--cream, #FBF7F2);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--walnut, #7B5E45);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  user-select: none;
+}
+
+.event-tag:hover {
+  background: var(--honey);
+  border-color: var(--amber-dark, #C9900A);
+}
+
+/* Register button */
+.register-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 20px;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: filter 0.15s, transform 0.1s;
+}
+
+.register-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+/* ── Society CTA Banner ── */
+.society-cta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--honey, #FFF0C0);
+  border: 1px solid var(--sand-dark, #E2C98A);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.society-cta__icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.society-cta__text {
+  flex: 1;
+  min-width: 200px;
+}
+
+.society-cta__text h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--espresso);
+  margin-bottom: 4px;
+}
+
+.society-cta__text p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  max-width: 500px;
+}
+
+.society-cta__btn {
+  padding: 10px 22px;
+  border-radius: var(--radius-md);
+  background: var(--espresso);
+  color: var(--amber);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.society-cta__btn:hover {
+  background: var(--walnut, #7B5E45);
+}
+
+/* ── Modal overrides (reuse existing modal styles) ── */
+.modal--wide {
+  max-width: 640px;
+  width: 100%;
+}
+
+.modal__subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+
+.modal__section-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 16px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Success state inside modal */
+.modal__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 0 8px;
+  text-align: center;
+}
+
+.modal__success-icon {
+  font-size: 48px;
+}
+
+.modal__success-msg {
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 420px;
+  line-height: 1.6;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .events-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .events-toolbar .post-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .society-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .event-card__meta {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .society-cta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .society-cta__btn {
+    width: 100%;
+    text-align: center;
+  }
+}
