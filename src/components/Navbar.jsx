@@ -20,6 +20,7 @@ export default function Navbar() {
     { to: '/marketplace', label: 'Marketplace' },
     { to: '/timetable',   label: 'Timetable' },
     { to: '/events',      label: 'Events' },
+    { to: '/mess',        label: 'Mess Menu' },
   ];
 
   return (

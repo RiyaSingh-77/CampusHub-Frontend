@@ -9,6 +9,7 @@ import './styles/globals.css';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminEvents from './pages/AdminEvents';
+import MessMenu from './pages/MessMenu';
 
 // Placeholder pages — build these next
 function ComingSoon({ title }) {
@@ -33,7 +34,7 @@ export default function App() {
         <Route path="/timetable"   element={<Timetable />} />
         <Route path="/events"      element={<Events />} />
         <Route path="/admin/events" element={<AdminEvents />} />
-        <Route path="/mess"        element={<ComingSoon title="Hostel Mess Menu" />} />
+        <Route path="/mess" element={<MessMenu />} />
         <Route path="/fruits"      element={<ComingSoon title="Fresh Fruits Delivery" />} />
         <Route path="/calendar"    element={<ComingSoon title="Academic Calendar" />} />
         <Route path="/login"       element={<Login />} />
