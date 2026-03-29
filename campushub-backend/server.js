@@ -12,6 +12,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth',     require('./routes/auth'));
 app.use('/api/listings', require('./routes/listings'));
+app.use('/api/timetable', require('./routes/timetable'));
 
 // Health check
 app.get('/', (req, res) => res.json({ message: 'CampusHub API running' }));

@@ -158,3 +158,124 @@
   .tt-filters { flex-direction: column; }
   .select-group { min-width: 100%; }
 }
+
+.tt-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 64px 0;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.tt-uploaded-by {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.tt-pdf-viewer { padding: 0; }
+
+.tt-pdf-frame {
+  width: 100%;
+  height: 600px;
+  border: none;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.tt-upload-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--honey);
+  border: 1px solid var(--sand-dark);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.tt-upload-cta__text h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--espresso);
+  margin-bottom: 4px;
+}
+
+.tt-upload-cta__text p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  max-width: 480px;
+}
+
+.tt-upload-btn {
+  padding: 10px 22px;
+  border-radius: var(--radius-md);
+  background: var(--espresso);
+  color: var(--amber);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background .15s;
+}
+.tt-upload-btn:hover { background: var(--walnut); }
+
+.tt-upload-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-top: 12px;
+}
+
+.tt-upload-note {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.tt-upload-note strong { color: var(--espresso); }
+.tt-upload-note span { font-size: 12px; color: var(--text-muted); }
+
+.tt-upload-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.tt-file-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: var(--bg);
+}
+
+.tt-submit-btn {
+  width: auto;
+  padding: 10px 24px;
+  white-space: nowrap;
+}
+
+.tt-upload-msg {
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+}
+
+.tt-upload-msg.success {
+  background: var(--sage-light);
+  color: var(--sage);
+}
+
+.tt-upload-msg.error {
+  background: var(--terra-light);
+  color: var(--terra);
+}

@@ -1,48 +1,81 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import api from '../api';
 import './Timetable.css';
 
-const BRANCHES  = ['Computer Science', 'Mechanical', 'Electronics', 'Civil', 'Chemical'];
-const YEARS     = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
-const SECTIONS  = ['Section A', 'Section B', 'Section C'];
-
-const PERIODS = [
-  '9:00 - 9:50', '10:00 - 10:50', '11:00 - 11:50',
-  '12:00 - 12:50', '1:00 - 1:50', '2:00 - 2:50',
+const BRANCHES = [
+  'CSE', 'ECE', 'ME', 'CE',
+  'Chemical Engineering', 'Electrical',
+  'Material Science', 'Engineering Physics',
 ];
-
-const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-
-// Sample timetable data
-const SAMPLE_DATA = {
-  Monday:    ['—', 'Computer Networks / Prof. Singh / LH-202', 'Operating Systems / Dr. Verma / LH-101', 'AI/ML / Prof. Joshi / LH-202', 'Lunch', 'AI/ML / Prof. Joshi / Lab-3'],
-  Tuesday:   ['Compiler Design / Dr. Patel / LH-102', '—', 'AI/ML / Prof. Joshi / LH-202', 'Compiler Design / Dr. Patel / LH-102', 'Lunch', 'Software Engg. / Prof. Kumar / Lab-1'],
-  Wednesday: ['Data Structures / Dr. Mehta / LH-301', 'AI/ML / Prof. Joshi / LH-202', 'Operating Systems / Dr. Verma / LH-101', '—', 'Lunch', 'Data Structures / Dr. Mehta / Lab-2'],
-  Thursday:  ['—', 'Software Engg. / Prof. Kumar / LH-102', 'Compiler Design / Dr. Patel / LH-102', 'Computer Networks / Prof. Singh / LH-202', 'Lunch', '—'],
-  Friday:    ['AI/ML / Prof. Joshi / LH-202', 'Data Structures / Dr. Mehta / LH-301', '—', 'Operating Systems / Dr. Verma / LH-101', 'Lunch', 'Computer Networks / Prof. Singh / Lab-3'],
-};
-
-function CellContent({ raw }) {
-  if (raw === '—') return <span className="cell-empty">—</span>;
-  if (raw === 'Lunch') return <span className="cell-lunch">Lunch</span>;
-  const [subject, faculty, room] = raw.split(' / ');
-  return (
-    <div className="cell-slot">
-      <span className="cell-subject">{subject}</span>
-      <span className="cell-faculty">{faculty}</span>
-      <span className="cell-room">{room}</span>
-    </div>
-  );
-}
+const YEARS    = [1, 2, 3, 4];
+const SECTIONS = ['A', 'B'];
+const DAYS     = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+const PERIODS  = ['9:00-9:50', '10:00-10:50', '11:00-11:50', '12:00-12:50', '1:00-1:50', '2:00-2:50'];
 
 export default function Timetable() {
-  const [branch, setBranch]   = useState('Computer Science');
-  const [year, setYear]       = useState('1st Year');
-  const [section, setSection] = useState('Section A');
+  const [branch, setBranch]     = useState('CSE');
+  const [year, setYear]         = useState(1);
+  const [section, setSection]   = useState('A');
+  const [timetable, setTimetable] = useState(null);
+  const [loading, setLoading]   = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadMsg, setUploadMsg] = useState('');
+  const [showUpload, setShowUpload] = useState(false);
+  const fileRef = useRef();
+
+  useEffect(() => {
+    const fetch = async () => {
+      setLoading(true);
+      try {
+        const res = await api.get('/timetable', { params: { branch, year, section } });
+        setTimetable(res.data);
+      } catch {
+        setTimetable(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetch();
+  }, [branch, year, section]);
+
+  const handlePdfUpload = async e => {
+    e.preventDefault();
+    const file = fileRef.current.files[0];
+    if (!file) return;
+    if (file.type !== 'application/pdf') {
+      setUploadMsg('Please select a PDF file only.');
+      return;
+    }
+
+    setUploading(true);
+    setUploadMsg('');
+    try {
+      const formData = new FormData();
+      formData.append('pdf', file);
+      formData.append('branch', branch);
+      formData.append('year', year);
+      formData.append('section', section);
+
+      const res = await api.post('/timetable/upload-pdf', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      setUploadMsg('Timetable uploaded successfully! Thank you.');
+      setTimetable(prev => ({ ...prev, pdfUrl: res.data.pdfUrl }));
+      setShowUpload(false);
+      fileRef.current.value = '';
+    } catch (err) {
+      setUploadMsg(err.response?.data?.message || 'Upload failed. Are you logged in?');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   return (
     <div className="timetable-page">
       <div className="container">
 
+        {/* Header */}
         <div className="page-header">
           <div className="page-header__icon">🗓️</div>
           <div>
@@ -61,47 +94,145 @@ export default function Timetable() {
           </div>
           <div className="select-group">
             <label className="select-label">Year</label>
-            <select value={year} onChange={e => setYear(e.target.value)} className="select-box">
-              {YEARS.map(y => <option key={y}>{y}</option>)}
+            <select value={year} onChange={e => setYear(Number(e.target.value))} className="select-box">
+              {YEARS.map(y => <option key={y} value={y}>{y} Year</option>)}
             </select>
           </div>
           <div className="select-group">
             <label className="select-label">Section</label>
             <select value={section} onChange={e => setSection(e.target.value)} className="select-box">
-              {SECTIONS.map(s => <option key={s}>{s}</option>)}
+              {SECTIONS.map(s => <option key={s}>Section {s}</option>)}
             </select>
           </div>
         </div>
 
-        {/* Table */}
-        <div className="tt-card">
-          <div className="tt-card__header">
-            <h2 className="tt-card__heading">{branch} — {year}, {section}</h2>
+        {/* Loading */}
+        {loading && (
+          <div className="tt-empty">
+            <p>Loading timetable...</p>
           </div>
+        )}
 
-          <div className="tt-scroll">
-            <table className="tt-table">
-              <thead>
-                <tr>
-                  <th className="tt-th tt-th--day">Day</th>
-                  {PERIODS.map(p => <th key={p} className="tt-th">{p}</th>)}
-                </tr>
-              </thead>
-              <tbody>
-                {DAYS.map((day, di) => (
-                  <tr key={day} className={di % 2 === 0 ? 'tt-row--even' : ''}>
-                    <td className="tt-td tt-td--day">{day}</td>
-                    {(SAMPLE_DATA[day] || []).map((cell, ci) => (
-                      <td key={ci} className={`tt-td ${cell === 'Lunch' ? 'tt-td--lunch' : ''}`}>
-                        <CellContent raw={cell} />
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* PDF viewer if PDF exists */}
+        {!loading && timetable?.pdfUrl && (
+          <div className="tt-card">
+            <div className="tt-card__header">
+              <h2 className="tt-card__heading">
+                {branch} — Year {year}, Section {section}
+              </h2>
+              {timetable.uploadedBy && (
+                <span className="tt-uploaded-by">
+                  Uploaded by {timetable.uploadedBy.name}
+                </span>
+              )}
+            </div>
+            <div className="tt-pdf-viewer">
+              <iframe
+                src={timetable.pdfUrl}
+                title="Timetable PDF"
+                className="tt-pdf-frame"
+              />
+            </div>
           </div>
+        )}
+
+        {/* Structured table if schedule exists but no PDF */}
+        {!loading && timetable?.schedule?.length > 0 && !timetable?.pdfUrl && (
+          <div className="tt-card">
+            <div className="tt-card__header">
+              <h2 className="tt-card__heading">
+                {branch} — Year {year}, Section {section}
+              </h2>
+            </div>
+            <div className="tt-scroll">
+              <table className="tt-table">
+                <thead>
+                  <tr>
+                    <th className="tt-th tt-th--day">Day</th>
+                    {PERIODS.map(p => <th key={p} className="tt-th">{p}</th>)}
+                  </tr>
+                </thead>
+                <tbody>
+                  {DAYS.map((day, di) => {
+                    const dayData = timetable.schedule.find(d => d.day === day);
+                    return (
+                      <tr key={day} className={di % 2 === 0 ? 'tt-row--even' : ''}>
+                        <td className="tt-td tt-td--day">{day}</td>
+                        {PERIODS.map((_, pi) => {
+                          const slot = dayData?.slots?.find(s => s.period === pi + 1);
+                          return (
+                            <td key={pi} className="tt-td">
+                              {slot ? (
+                                <div className="cell-slot">
+                                  <span className="cell-subject">{slot.subject}</span>
+                                  <span className="cell-faculty">{slot.faculty}</span>
+                                  <span className="cell-room">{slot.room}</span>
+                                </div>
+                              ) : (
+                                <span className="cell-empty">—</span>
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* No timetable found */}
+        {!loading && !timetable && (
+          <div className="tt-empty">
+            <span style={{ fontSize: 40 }}>📅</span>
+            <p>No timetable found for {branch} Year {year} Section {section} yet.</p>
+          </div>
+        )}
+
+        {/* Upload CTA */}
+        <div className="tt-upload-cta">
+          <div className="tt-upload-cta__text">
+            <h3>Have your class timetable?</h3>
+            <p>Help your batchmates — upload a PDF of your timetable and it will be visible to everyone in your class.</p>
+          </div>
+          <button
+            className="tt-upload-btn"
+            onClick={() => setShowUpload(s => !s)}
+          >
+            {showUpload ? 'Cancel' : '📤 Upload Timetable PDF'}
+          </button>
         </div>
+
+        {/* Upload form */}
+        {showUpload && (
+          <div className="tt-upload-form">
+            <p className="tt-upload-note">
+              Uploading for: <strong>{branch} — Year {year}, Section {section}</strong>
+              <br />
+              <span>Change branch/year/section above before uploading.</span>
+            </p>
+
+            <form onSubmit={handlePdfUpload} className="tt-upload-row">
+              <input
+                type="file"
+                accept=".pdf"
+                ref={fileRef}
+                className="tt-file-input"
+              />
+              <button type="submit" className="auth-btn tt-submit-btn" disabled={uploading}>
+                {uploading ? 'Uploading...' : 'Upload PDF'}
+              </button>
+            </form>
+
+            {uploadMsg && (
+              <p className={`tt-upload-msg ${uploadMsg.includes('success') ? 'success' : 'error'}`}>
+                {uploadMsg}
+              </p>
+            )}
+          </div>
+        )}
 
       </div>
     </div>
