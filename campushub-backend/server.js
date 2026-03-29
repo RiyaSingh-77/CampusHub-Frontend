@@ -1,6 +1,8 @@
 const express  = require('express');
 const cors     = require('cors');
 require('dotenv').config();
+const eventRoutes = require('./routes/events');
+
 
 const connectDB = require('./config/db');
 connectDB();
@@ -13,6 +15,7 @@ app.use(express.json());
 app.use('/api/auth',     require('./routes/auth'));
 app.use('/api/listings', require('./routes/listings'));
 app.use('/api/timetable', require('./routes/timetable'));
+app.use('/api/events', eventRoutes);
 
 // Health check
 app.get('/', (req, res) => res.json({ message: 'CampusHub API running' }));
