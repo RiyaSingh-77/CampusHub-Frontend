@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api";
 import "./FruitsAdmin.css";
 
 const CATEGORIES = ["fruits", "vegetables", "grocery"];
@@ -21,11 +22,9 @@ const FruitsAdmin = () => {
     image: null,
   });
 
-  // Fetch existing products
   const fetchProducts = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/products`)
-      .then((res) => res.json())
-      .then((data) => { setProducts(data); setLoading(false); })
+    api.get("/products")
+      .then((res) => { setProducts(res.data); setLoading(false); })
       .catch(() => setLoading(false));
   };
 
@@ -54,15 +53,13 @@ const FruitsAdmin = () => {
     if (form.image) formData.append("image", form.image);
 
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products`, {
-        method: "POST",
-        body: formData,
+      await api.post("/products", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
-      if (!res.ok) throw new Error("Failed to add product");
       setSuccess("Product added successfully! ✅");
       setForm({ name: "", price: "", unit: "", category: "fruits", emoji: "", image: null });
       e.target.reset();
-      fetchProducts(); // refresh list
+      fetchProducts();
     } catch (err) {
       setError("Something went wrong. Please try again.");
     } finally {
@@ -72,8 +69,12 @@ const FruitsAdmin = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this product?")) return;
-    await fetch(`${process.env.REACT_APP_API_URL}/api/products/${id}`, { method: "DELETE" });
-    fetchProducts();
+    try {
+      await api.delete(`/products/${id}`);
+      fetchProducts();
+    } catch (err) {
+      console.error("Delete failed", err);
+    }
   };
 
   return (
@@ -195,7 +196,7 @@ const FruitsAdmin = () => {
                       <td>
                         {p.imageUrl ? (
                           <img
-                            src={`${process.env.REACT_APP_API_URL}${p.imageUrl}`}
+                            src={`http://localhost:5000${p.imageUrl}`}
                             alt={p.name}
                             className="fadmin-thumb"
                           />
@@ -206,7 +207,11 @@ const FruitsAdmin = () => {
                       <td>{p.name}</td>
                       <td>₹{p.price}</td>
                       <td>{p.unit}</td>
-                      <td><span className={`fadmin-badge fadmin-badge--${p.category}`}>{p.category}</span></td>
+                      <td>
+                        <span className={`fadmin-badge fadmin-badge--${p.category}`}>
+                          {p.category}
+                        </span>
+                      </td>
                       <td>
                         <button
                           className="fadmin-delete-btn"

@@ -226,6 +226,14 @@
 .product-card__btn:active {
   transform: scale(0.97);
 }
+.product-card__image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 0 auto 10px;
+  display: block;
+}
 
 /* ── Cart Drawer ── */
 .cart-overlay {

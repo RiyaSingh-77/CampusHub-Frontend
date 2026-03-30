@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProductCard from "../components/fruits/ProductCard";
 import CartDrawer from "../components/fruits/CartDrawer";
 import "./FruitsGrocery.css";
+import api from '../api';
 
 const CATEGORIES = [
   { key: "all", label: "All Items" },
@@ -18,10 +19,9 @@ const FruitsGrocery = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/products`)
-      .then((res) => res.json())
-      .then((data) => { setProducts(data); setLoading(false); })
-      .catch((err) => { console.error(err); setLoading(false); });
+    api.get('/products')
+    .then(res => { setProducts(res.data); setLoading(false); })
+    .catch(err => { console.error(err); setLoading(false); });
   }, []);
 
   const filtered = activeCategory === "all"
