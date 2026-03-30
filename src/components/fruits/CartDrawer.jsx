@@ -5,78 +5,44 @@ const CartDrawer = ({ isOpen, onClose, cartItems, onRemove, onClear }) => {
 
   return (
     <>
-      {/* Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/30 z-40 backdrop-blur-sm"
-          onClick={onClose}
-        />
-      )}
-
-      {/* Drawer */}
-      <div
-        className={`fixed top-0 right-0 h-full w-80 bg-white z-50 shadow-2xl transform transition-transform duration-300 flex flex-col ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        {/* Header */}
-        <div className="bg-amber-500 text-white px-5 py-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold">🛒 Your Cart</h2>
-          <button onClick={onClose} className="text-white hover:text-amber-100 text-2xl leading-none">
-            ×
-          </button>
+      {isOpen && <div className="cart-overlay" onClick={onClose} />}
+      <div className={`cart-drawer ${isOpen ? "open" : ""}`}>
+        <div className="cart-drawer__header">
+          <h2>🛒 Your Cart</h2>
+          <button className="cart-drawer__close" onClick={onClose}>×</button>
         </div>
 
-        {/* Items */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        <div className="cart-drawer__items">
           {cartItems.length === 0 ? (
-            <div className="text-center text-gray-400 mt-16">
-              <div className="text-5xl mb-3">🛒</div>
+            <div className="cart-empty">
+              <div>🛒</div>
               <p>Your cart is empty</p>
             </div>
           ) : (
             cartItems.map((item) => (
-              <div
-                key={item.id}
-                className="flex items-center gap-3 bg-amber-50 rounded-xl p-3 border border-amber-100"
-              >
-                <span className="text-2xl">{item.emoji}</span>
-                <div className="flex-1">
-                  <p className="font-semibold text-gray-800 text-sm">{item.name}</p>
-                  <p className="text-amber-600 text-sm">
-                    ₹{item.price} × {item.qty}
-                  </p>
+              <div key={item.id} className="cart-item">
+                <span className="cart-item__emoji">{item.emoji}</span>
+                <div className="cart-item__info">
+                  <div className="cart-item__name">{item.name}</div>
+                  <div className="cart-item__price">₹{item.price} × {item.qty}</div>
                 </div>
-                <div className="text-right">
-                  <p className="font-bold text-gray-800">₹{item.price * item.qty}</p>
-                  <button
-                    onClick={() => onRemove(item.id)}
-                    className="text-red-400 hover:text-red-600 text-xs mt-0.5"
-                  >
-                    Remove
-                  </button>
+                <div className="cart-item__right">
+                  <div className="cart-item__total">₹{item.price * item.qty}</div>
+                  <button className="cart-item__remove" onClick={() => onRemove(item.id)}>Remove</button>
                 </div>
               </div>
             ))
           )}
         </div>
 
-        {/* Footer */}
         {cartItems.length > 0 && (
-          <div className="p-4 border-t border-amber-100 space-y-3">
-            <div className="flex justify-between font-bold text-gray-800 text-lg">
+          <div className="cart-drawer__footer">
+            <div className="cart-drawer__total">
               <span>Total</span>
-              <span className="text-amber-600">₹{total}</span>
+              <span>₹{total}</span>
             </div>
-            <button className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition-colors">
-              Place Order
-            </button>
-            <button
-              onClick={onClear}
-              className="w-full text-gray-400 hover:text-gray-600 text-sm"
-            >
-              Clear cart
-            </button>
+            <button className="cart-drawer__order-btn">Place Order</button>
+            <button className="cart-drawer__clear-btn" onClick={onClear}>Clear cart</button>
           </div>
         )}
       </div>
