@@ -22,6 +22,7 @@ export default function Navbar() {
     { to: '/events',      label: 'Events' },
     { to: '/mess',        label: 'Mess Menu' },
     { to: '/fruits',      label: 'Fruits & Grocery' },
+    { to: '/holidays',    label: 'Holidays' },
   ];
 
   return (

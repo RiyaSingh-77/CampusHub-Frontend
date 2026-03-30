@@ -13,6 +13,7 @@ import MessMenu from './pages/MessMenu';
 import FruitsGrocery from "./pages/FruitsGrocery";
 import ProtectedRoute from "./components/ProtectedRoute";
 import FruitsAdmin from "./pages/FruitsAdmin";
+import Holidays from "./pages/Holidays";
 
 
 // Placeholder pages — build these next
@@ -40,6 +41,7 @@ export default function App() {
         <Route path="/admin/events" element={<AdminEvents />} />
         <Route path="/mess" element={<MessMenu />} />
         <Route path="/fruits" element={<FruitsGrocery />} />
+        <Route path="/holidays" element={<Holidays />} />
         <Route path="/calendar"    element={<ComingSoon title="Academic Calendar" />} />
         <Route path="/login"       element={<Login />} />
         <Route path="/signup" element={<Register />} />

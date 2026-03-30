@@ -1,0 +1,299 @@
+.holidays-page {
+  min-height: 100vh;
+  background: #f9fafb;
+}
+
+/* ── Hero Banner ── */
+.holidays-hero {
+  background: linear-gradient(135deg, #f59e0b, #ea580c, #d97706);
+  padding: 56px 24px;
+}
+
+.holidays-hero-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.holidays-hero-icon {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.holidays-hero h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+}
+
+.holidays-hero p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.05rem;
+  margin: 4px 0 0;
+}
+
+/* ── Main Content ── */
+.holidays-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+}
+
+/* ── Tabs ── */
+.holidays-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #374151;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  border-color: #f59e0b;
+}
+
+.tab-btn.active {
+  background: #f59e0b;
+  color: #ffffff;
+  border-color: #f59e0b;
+}
+
+/* ── Holiday Cards ── */
+.holiday-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.holiday-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 16px 20px;
+  transition: all 0.2s;
+}
+
+.holiday-card:hover {
+  border-color: #f59e0b;
+}
+
+/* Date Badge */
+.holiday-date-badge {
+  background: #f59e0b;
+  color: #000;
+  border-radius: 10px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.holiday-date-badge .h-month {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.holiday-date-badge .h-day {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+/* Info */
+.holiday-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.holiday-icon {
+  color: #f59e0b;
+  display: flex;
+  align-items: center;
+}
+
+.holiday-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.holiday-day-label {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+/* ── Badges ── */
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.badge-national {
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #fed7aa;
+}
+
+.badge-regional {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+}
+
+.badge-academic {
+  background: #fefce8;
+  color: #ca8a04;
+  border: 1px solid #fde68a;
+}
+
+/* ── Academic Calendar ── */
+.academic-table-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.academic-table-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.academic-table-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.academic-table-header svg {
+  color: #f59e0b;
+}
+
+.academic-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.2s;
+}
+
+.academic-row:last-child {
+  border-bottom: none;
+}
+
+.academic-row:hover {
+  background: #f9fafb;
+}
+
+.academic-range {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f59e0b;
+  min-width: 170px;
+}
+
+.academic-label {
+  flex: 1;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+/* ── PDF Download Card ── */
+.pdf-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.pdf-icon-wrap {
+  background: #f59e0b;
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  color: #000;
+}
+
+.pdf-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 10px;
+}
+
+.pdf-card p {
+  color: #6b7280;
+  max-width: 420px;
+  line-height: 1.6;
+  margin: 0 0 28px;
+}
+
+.pdf-download-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f59e0b;
+  color: #000;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 13px 28px;
+  border-radius: 12px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.pdf-download-btn:hover {
+  background: #fbbf24;
+}
+
+.pdf-note {
+  color: #9ca3af;
+  font-size: 0.8rem;
+  margin-top: 12px;
+}
