@@ -21,6 +21,7 @@ export default function Navbar() {
     { to: '/timetable',   label: 'Timetable' },
     { to: '/events',      label: 'Events' },
     { to: '/mess',        label: 'Mess Menu' },
+    { to: '/fruits',      label: 'Fruits & Grocery' },
   ];
 
   return (
