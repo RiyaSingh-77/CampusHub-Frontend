@@ -44,6 +44,19 @@ export default function Navbar() {
               </Link>
             </li>
           ))}
+
+          {/* Vendor / Admin only */}
+          {(user?.role === 'vendor' || user?.role === 'admin') && (
+            <li>
+              <Link
+                to="/fruits/admin"
+                className={`navbar__link ${pathname === '/fruits/admin' ? 'active' : ''}`}
+                onClick={() => setMenuOpen(false)}
+              >
+                Manage Products
+              </Link>
+            </li>
+          )}
         </ul>
 
         <div className="navbar__actions">
