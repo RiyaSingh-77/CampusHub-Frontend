@@ -4,6 +4,7 @@ require('dotenv').config();
 const eventRoutes = require('./routes/events');
 const messRoutes = require('./routes/mess');
 const productRoutes = require('./routes/products');
+const lostFoundRoutes = require('./routes/lostFound');
 
 const connectDB = require('./config/db');
 connectDB();
@@ -25,7 +26,7 @@ app.use('/api/timetable', require('./routes/timetable'));
 app.use('/api/events', eventRoutes);
 app.use('/api/mess', messRoutes);
 app.use('/api/products', productRoutes);
-
+app.use('/api/lost-found', lostFoundRoutes);
 // Health check
 app.get('/', (req, res) => res.json({ message: 'CampusHub API running' }));
 
