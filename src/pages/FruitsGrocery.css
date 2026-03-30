@@ -402,11 +402,3 @@
 .cart-drawer__clear-btn:hover {
   color: #4b5563;
 }
-.product-card__image {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin: 0 auto 10px;
-  display: block;
-}

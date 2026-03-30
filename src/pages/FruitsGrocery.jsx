@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import ProductCard from "../components/fruits/ProductCard";
 import CartDrawer from "../components/fruits/CartDrawer";
+import { products } from "../data/fruitsData";
 import "./FruitsGrocery.css";
 
 const CATEGORIES = [
@@ -14,25 +15,17 @@ const FruitsGrocery = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/products`)
-      .then((res) => res.json())
-      .then((data) => { setProducts(data); setLoading(false); })
-      .catch((err) => { console.error(err); setLoading(false); });
-  }, []);
-
-  const filtered = activeCategory === "all"
-    ? products
-    : products.filter((p) => p.category === activeCategory);
+  const filtered = useMemo(() => {
+    if (activeCategory === "all") return products;
+    return products.filter((p) => p.category === activeCategory);
+  }, [activeCategory]);
 
   const addToCart = (product) => {
     setCart((prev) => {
-      const existing = prev.find((i) => i.id === product._id);
-      if (existing) return prev.map((i) => i.id === product._id ? { ...i, qty: i.qty + 1 } : i);
-      return [...prev, { ...product, id: product._id, qty: 1 }];
+      const existing = prev.find((i) => i.id === product.id);
+      if (existing) return prev.map((i) => i.id === product.id ? { ...i, qty: i.qty + 1 } : i);
+      return [...prev, { ...product, qty: 1 }];
     });
   };
 
@@ -75,17 +68,11 @@ const FruitsGrocery = () => {
 
       {/* Grid */}
       <div className="fruits-grid-wrapper">
-        {loading ? (
-          <div className="fruits-loading">Loading products...</div>
-        ) : filtered.length === 0 ? (
-          <div className="fruits-loading">No products found.</div>
-        ) : (
-          <div className="fruits-grid">
-            {filtered.map((product) => (
-              <ProductCard key={product._id} product={product} onAddToCart={addToCart} />
-            ))}
-          </div>
-        )}
+        <div className="fruits-grid">
+          {filtered.map((product) => (
+            <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
+          ))}
+        </div>
       </div>
 
       {/* Cart Drawer */}

@@ -11,7 +11,6 @@ import Register from './pages/Register';
 import AdminEvents from './pages/AdminEvents';
 import MessMenu from './pages/MessMenu';
 import FruitsGrocery from "./pages/FruitsGrocery";
-import FruitsAdmin from "./pages/FruitsAdmin";
 
 // Placeholder pages — build these next
 function ComingSoon({ title }) {
@@ -38,7 +37,6 @@ export default function App() {
         <Route path="/admin/events" element={<AdminEvents />} />
         <Route path="/mess" element={<MessMenu />} />
         <Route path="/fruits" element={<FruitsGrocery />} />
-        <Route path="/fruits/admin" element={<FruitsAdmin />} />
         <Route path="/calendar"    element={<ComingSoon title="Academic Calendar" />} />
         <Route path="/login"       element={<Login />} />
         <Route path="/signup" element={<Register />} />
