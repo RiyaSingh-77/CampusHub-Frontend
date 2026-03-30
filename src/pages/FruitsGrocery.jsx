@@ -20,8 +20,8 @@ const FruitsGrocery = () => {
 
   useEffect(() => {
     api.get('/products')
-    .then(res => { setProducts(res.data); setLoading(false); })
-    .catch(err => { console.error(err); setLoading(false); });
+      .then(res => { setProducts(res.data); setLoading(false); })
+      .catch(err => { console.error(err); setLoading(false); });
   }, []);
 
   const filtered = activeCategory === "all"
@@ -34,6 +34,14 @@ const FruitsGrocery = () => {
       if (existing) return prev.map((i) => i.id === product._id ? { ...i, qty: i.qty + 1 } : i);
       return [...prev, { ...product, id: product._id, qty: 1 }];
     });
+  };
+
+  const decreaseQty = (id) => {
+    setCart((prev) =>
+      prev
+        .map((i) => i.id === id ? { ...i, qty: i.qty - 1 } : i)
+        .filter((i) => i.qty > 0)
+    );
   };
 
   const removeFromCart = (id) => setCart((prev) => prev.filter((i) => i.id !== id));
@@ -94,6 +102,8 @@ const FruitsGrocery = () => {
         onClose={() => setCartOpen(false)}
         cartItems={cart}
         onRemove={removeFromCart}
+        onDecrease={decreaseQty}
+        onIncrease={addToCart}
         onClear={() => setCart([])}
       />
     </div>
