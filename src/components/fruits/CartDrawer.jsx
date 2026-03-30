@@ -1,6 +1,6 @@
 import React from "react";
 
-const CartDrawer = ({ isOpen, onClose, cartItems, onRemove, onClear }) => {
+const CartDrawer = ({ isOpen, onClose, cartItems, onRemove, onDecrease, onIncrease, onClear }) => {
   const total = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   return (
@@ -21,12 +21,29 @@ const CartDrawer = ({ isOpen, onClose, cartItems, onRemove, onClear }) => {
           ) : (
             cartItems.map((item) => (
               <div key={item.id} className="cart-item">
-                <span className="cart-item__emoji">{item.emoji}</span>
+                <span className="cart-item__emoji">
+                  {item.imageUrl ? (
+                    <img
+                      src={`http://localhost:5000${item.imageUrl}`}
+                      alt={item.name}
+                      className="cart-item__img"
+                    />
+                  ) : (
+                    item.emoji || "🛒"
+                  )}
+                </span>
+
                 <div className="cart-item__info">
                   <div className="cart-item__name">{item.name}</div>
-                  <div className="cart-item__price">₹{item.price} × {item.qty}</div>
+                  <div className="cart-item__price">₹{item.price}/{item.unit}</div>
                 </div>
+
                 <div className="cart-item__right">
+                  <div className="cart-item__qty-controls">
+                    <button className="cart-qty-btn" onClick={() => onDecrease(item.id)}>−</button>
+                    <span className="cart-qty-num">{item.qty}</span>
+                    <button className="cart-qty-btn" onClick={() => onIncrease(item)}>+</button>
+                  </div>
                   <div className="cart-item__total">₹{item.price * item.qty}</div>
                   <button className="cart-item__remove" onClick={() => onRemove(item.id)}>Remove</button>
                 </div>
