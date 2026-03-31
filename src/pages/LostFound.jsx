@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './LostFound.css';
 
-const API = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/lost-found`;
+const API = `${process.env.REACT_APP_API_URL  || 'http://localhost:5000'}/api/lost-found`;
 
 const CATEGORIES = [
   'All Categories','Electronics','ID/Cards','Bags',

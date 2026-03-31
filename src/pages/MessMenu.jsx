@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API = process.env.REACT_APP_API_URL  || "http://localhost:5000";
 
 const HOSTELS = [ "Ambika Girls Hostel","Parvati Girls Hostel", "Satpura Girls Hostel", "Manimahesh Girls Hostel", "Kailash Boys Hostel", "Himadri Boys Hostel", "Neelkanth Boys Hostel","Dhauladhar Boys Hostel", "Himgiri Boys Hostel" ];
 const DAYS    = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
