@@ -9,7 +9,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         {/* Show real image if exists, else fallback to emoji */}
         {product.imageUrl ? (
           <img
-            src={`http://localhost:5000${product.imageUrl}`}
+            src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${product.imageUrl}`}
             alt={product.name}
             className="product-card__image"
           />

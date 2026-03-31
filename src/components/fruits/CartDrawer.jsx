@@ -24,7 +24,7 @@ const CartDrawer = ({ isOpen, onClose, cartItems, onRemove, onDecrease, onIncrea
                 <span className="cart-item__emoji">
                   {item.imageUrl ? (
                     <img
-                      src={`http://localhost:5000${item.imageUrl}`}
+                      src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${item.imageUrl}`}
                       alt={item.name}
                       className="cart-item__img"
                     />

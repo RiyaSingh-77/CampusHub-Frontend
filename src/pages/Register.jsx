@@ -51,7 +51,7 @@ export default function Register() {
     <div className="auth-page">
       <div className="auth-card auth-card--wide">
         <div className="auth-logo">🏛️ CampusHub</div>
-        <h1 className="auth-title">Create your account</h1>
+        <h1 className="auth-title">New here? Create your account</h1>
         <p className="auth-sub">Join your campus community</p>
 
         {error && <div className="auth-error">{error}</div>}

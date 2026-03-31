@@ -196,7 +196,7 @@ const FruitsAdmin = () => {
                       <td>
                         {p.imageUrl ? (
                           <img
-                            src={`http://localhost:5000${p.imageUrl}`}
+                            src={`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${p.imageUrl}`}
                             alt={p.name}
                             className="fadmin-thumb"
                           />
