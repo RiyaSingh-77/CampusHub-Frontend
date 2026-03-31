@@ -32,23 +32,48 @@ export default function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/"            element={<Home />} />
-        <Route path="/marketplace" element={<Marketplace />} />
-        <Route path="/timetable"   element={<Timetable />} />
-        <Route path="/events"      element={<Events />} />
-        <Route path="/admin/events" element={<AdminEvents />} />
-        <Route path="/mess" element={<MessMenu />} />
-        <Route path="/fruits" element={<FruitsGrocery />} />
-        <Route path="/holidays" element={<Holidays />} />
-        <Route path="/calendar"    element={<ComingSoon title="Academic Calendar" />} />
-        <Route path="/login"       element={<Login />} />
+        {/* ── PUBLIC ── */}
+        <Route path="/"       element={<Home />} />
+        <Route path="/login"  element={<Login />} />
         <Route path="/signup" element={<Register />} />
+
+        {/* ── PROTECTED (any logged-in user) ── */}
+        <Route path="/marketplace" element={
+          <ProtectedRoute><Marketplace /></ProtectedRoute>
+        } />
+        <Route path="/timetable" element={
+          <ProtectedRoute><Timetable /></ProtectedRoute>
+        } />
+        <Route path="/events" element={
+          <ProtectedRoute><Events /></ProtectedRoute>
+        } />
+        <Route path="/mess" element={
+          <ProtectedRoute><MessMenu /></ProtectedRoute>
+        } />
+        <Route path="/fruits" element={
+          <ProtectedRoute><FruitsGrocery /></ProtectedRoute>
+        } />
+        <Route path="/holidays" element={
+          <ProtectedRoute><Holidays /></ProtectedRoute>
+        } />
+        <Route path="/lost-found" element={
+          <ProtectedRoute><LostFound /></ProtectedRoute>
+        } />
+        <Route path="/calendar" element={
+          <ProtectedRoute><ComingSoon title="Academic Calendar" /></ProtectedRoute>
+        } />
+
+        {/* ── PROTECTED (role-restricted) ── */}
+        <Route path="/admin/events" element={
+          <ProtectedRoute allowedRoles={['admin', 'society']}>
+            <AdminEvents />
+          </ProtectedRoute>
+        } />
         <Route path="/fruits/admin" element={
           <ProtectedRoute allowedRoles={['vendor', 'admin']}>
             <FruitsAdmin />
           </ProtectedRoute>
         } />
-        <Route path="/lost-found" element={<LostFound />} />
       </Routes>
     </BrowserRouter>
   );
