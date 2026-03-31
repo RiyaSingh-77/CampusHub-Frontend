@@ -3,37 +3,36 @@ import { CalendarDays, Download, Star, Flame, Sun, Sparkles } from "lucide-react
 import "./Holidays.css";
 
 const holidays = [
-  { month: "Jan", day: "26", dayName: "Sunday",    name: "Republic Day",            type: "National",  icon: <Star size={16} /> },
-  { month: "Mar", day: "4", dayName: "Wednesday",    name: "Holi",                    type: "National",  icon: <Sparkles size={16} /> },
-  { month: "Mar", day: "21", dayName: "Saturday",    name: "Id-ul-Fitr",              type: "National",  icon: <Star size={16} /> },
-  { month: "Mar", day: "26", dayName: "Thursday",    name: "Ram Navami",              type: "Regional",  icon: <Sun size={16} /> },
-  { month: "Mar", day: "31", dayName: "Tuesday",  name: "Mahavir Jayanti",         type: "National",  icon: <Star size={16} /> },
-  { month: "Apr", day: "03", dayName: "Friday",    name: "Good Friday",             type: "National",  icon: <Star size={16} /> },
-{ month: "May", day: "1", dayName: "Friday",    name: "Buddha Purnima",          type: "National",  icon: <Sparkles size={16} /> },
-  { month: "May", day: "27", dayName: "Wednesday",  name: "Id-ul-Zuha (Bakrid)",     type: "National",  icon: <Star size={16} /> },
-  { month: "Jun", day: "26", dayName: "Friday",  name: "Muharram",     type: "National",  icon: <Star size={16} /> },
-  { month: "Aug", day: "15", dayName: "Saturday",    name: "Independence Day",        type: "National",  icon: <Star size={16} /> },
-  { month: "Aug", day: "26", dayName: "Wednesday",  name: "Milad-ul-nabi",               type: "Regional",  icon: <Star size={16} /> },
-  { month: "Sep", day: "04", dayName: "Friday", name: "Janmashtami",             type: "Regional",  icon: <Sparkles size={16} /> },
-  { month: "Oct", day: "02", dayName: "Friday",  name: "Gandhi Jayanti", type: "National", icon: <Flame size={16} /> },
-  { month: "Oct", day: "20", dayName: "Tuesday",    name: "Dussehra",           type: "National",  icon: <Star size={16} /> },
-  { month: "Nov", day: "08", dayName: "Sunday",    name: "Diwali",                  type: "National",  icon: <Sparkles size={16} /> },
-  { month: "Nov", day: "24", dayName: "Tuesday", name: "Guru Nanak Jayanti",      type: "National",  icon: <Star size={16} /> },
-  { month: "Dec", day: "25", dayName: "Friday",  name: "Christmas",               type: "National",  icon: <Star size={16} /> },
+  { month: "Jan", day: "26", dayName: "Sunday",    name: "Republic Day",         type: "National",  icon: "Star" },
+  { month: "Mar", day: "4",  dayName: "Wednesday", name: "Holi",                 type: "National",  icon: "Sparkles" },
+  { month: "Mar", day: "21", dayName: "Saturday",  name: "Id-ul-Fitr",           type: "National",  icon: "Star" },
+  { month: "Mar", day: "26", dayName: "Thursday",  name: "Ram Navami",           type: "Regional",  icon: "Sun" },
+  { month: "Mar", day: "31", dayName: "Tuesday",   name: "Mahavir Jayanti",      type: "National",  icon: "Star" },
+  { month: "Apr", day: "03", dayName: "Friday",    name: "Good Friday",          type: "National",  icon: "Star" },
+  { month: "May", day: "1",  dayName: "Friday",    name: "Buddha Purnima",       type: "National",  icon: "Sparkles" },
+  { month: "May", day: "27", dayName: "Wednesday", name: "Id-ul-Zuha (Bakrid)",  type: "National",  icon: "Star" },
+  { month: "Jun", day: "26", dayName: "Friday",    name: "Muharram",             type: "National",  icon: "Star" },
+  { month: "Aug", day: "15", dayName: "Saturday",  name: "Independence Day",     type: "National",  icon: "Star" },
+  { month: "Aug", day: "26", dayName: "Wednesday", name: "Milad-ul-nabi",        type: "Regional",  icon: "Star" },
+  { month: "Sep", day: "04", dayName: "Friday",    name: "Janmashtami",          type: "Regional",  icon: "Sparkles" },
+  { month: "Oct", day: "02", dayName: "Friday",    name: "Gandhi Jayanti",       type: "National",  icon: "Flame" },
+  { month: "Oct", day: "20", dayName: "Tuesday",   name: "Dussehra",             type: "National",  icon: "Star" },
+  { month: "Nov", day: "08", dayName: "Sunday",    name: "Diwali",               type: "National",  icon: "Sparkles" },
+  { month: "Nov", day: "24", dayName: "Tuesday",   name: "Guru Nanak Jayanti",   type: "National",  icon: "Star" },
+  { month: "Dec", day: "25", dayName: "Friday",    name: "Christmas",            type: "National",  icon: "Star" },
 ];
 
 const academicDates = [
   { range: "Jan 7",           label: "Even Semester(2026) Begins" },
   { range: "Jan 16",          label: "Last date of registration with late fee" },
-  { range: "Feb 6",          label: "Notification of list of registered students" },
+  { range: "Feb 6",           label: "Notification of list of registered students" },
   { range: "Feb 20",          label: "Notification of shortage of attendance by Deptts." },
-
-  { range: "Feb 23 – Feb 28",  label: "Mid-Semester Exams (Even)" },
-  { range: "Mar 27 – Mar 28",  label: "LALKAAR(Annual Sports Meet)" },
-  { range: "Apr 10 – Apr 12",  label: "NIMBUS(Annual Techfest)" },
-  { range: "Apr 27 – May 12",  label: "End-Semester Exams (Even)" },
-   { range: "May 15",  label: "End Semester Evaluation of UG Projects" },
-  { range: "May 21 – Jul 19",  label: "Summer Vacations" },
+  { range: "Feb 23 – Feb 28", label: "Mid-Semester Exams (Even)" },
+  { range: "Mar 27 – Mar 28", label: "LALKAAR (Annual Sports Meet)" },
+  { range: "Apr 10 – Apr 12", label: "NIMBUS (Annual Techfest)" },
+  { range: "Apr 27 – May 12", label: "End-Semester Exams (Even)" },
+  { range: "May 15",          label: "End Semester Evaluation of UG Projects" },
+  { range: "May 21 – Jul 19", label: "Summer Vacations" },
 ];
 
 const badgeClass = {
@@ -41,6 +40,16 @@ const badgeClass = {
   Regional: "badge badge-regional",
   Academic: "badge badge-academic",
 };
+
+function HolidayIcon({ name }) {
+  const size = 16;
+  switch (name) {
+    case "Flame":    return <Flame size={size} />;
+    case "Sun":      return <Sun size={size} />;
+    case "Sparkles": return <Sparkles size={size} />;
+    default:         return <Star size={size} />;
+  }
+}
 
 export default function Holidays() {
   const [activeTab, setActiveTab] = useState("holidays");
@@ -90,7 +99,9 @@ export default function Holidays() {
                   <span className="h-day">{h.day}</span>
                 </div>
                 <div className="holiday-info">
-                  <span className="holiday-icon">{h.icon}</span>
+                  <span className="holiday-icon">
+                    <HolidayIcon name={h.icon} />
+                  </span>
                   <div>
                     <p className="holiday-name">{h.name}</p>
                     <p className="holiday-day-label">{h.dayName}</p>
@@ -119,7 +130,7 @@ export default function Holidays() {
               ))}
             </div>
 
-            {/* PDF Download */}
+            {/* PDF Download Card */}
             <div className="pdf-card">
               <div className="pdf-icon-wrap">
                 <Download size={32} />
@@ -130,8 +141,9 @@ export default function Holidays() {
                 important dates, exam schedules, and holiday lists.
               </p>
               <a
-                href="/academic-calendar-2025-26.pdf"
-                download
+                href="https://share.google/7WEoETtjEGjbXP43X"
+                target="_blank"
+                rel="noreferrer"
                 className="pdf-download-btn"
               >
                 <Download size={18} />
@@ -139,8 +151,10 @@ export default function Holidays() {
               </a>
               <span className="pdf-note">PDF • NITH Official</span>
             </div>
+
           </>
         )}
+
       </div>
     </div>
   );

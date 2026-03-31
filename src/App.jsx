@@ -4,7 +4,6 @@ import Home from './pages/Home';
 import Marketplace from './pages/Marketplace';
 import Timetable from './pages/Timetable';
 import Events from './pages/Events';
-
 import './styles/globals.css';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -14,9 +13,8 @@ import FruitsGrocery from "./pages/FruitsGrocery";
 import ProtectedRoute from "./components/ProtectedRoute";
 import FruitsAdmin from "./pages/FruitsAdmin";
 import Holidays from "./pages/Holidays";
+import LostFound from './pages/LostFound';
 
-
-// Placeholder pages — build these next
 function ComingSoon({ title }) {
   return (
     <div style={{ padding: '80px 24px', textAlign: 'center' }}>
@@ -50,6 +48,7 @@ export default function App() {
             <FruitsAdmin />
           </ProtectedRoute>
         } />
+        <Route path="/lost-found" element={<LostFound />} />
       </Routes>
     </BrowserRouter>
   );

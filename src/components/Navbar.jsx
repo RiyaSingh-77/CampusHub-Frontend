@@ -1,6 +1,48 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Navbar.css';
+
+function DropdownMenu({ label, items, pathname, onClose }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef();
+
+  useEffect(() => {
+    function handleClick(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  const isActive = items.some(i => i.to === pathname);
+
+  return (
+    <li className="navbar__dropdown" ref={ref}>
+      <button
+        className={`navbar__link navbar__dropdown-btn ${isActive ? 'active' : ''}`}
+        onClick={() => setOpen(o => !o)}
+      >
+        {label}
+        <span className={`navbar__dropdown-arrow ${open ? 'open' : ''}`}>▾</span>
+      </button>
+      {open && (
+        <ul className="navbar__dropdown-menu">
+          {items.map(item => (
+            <li key={item.to}>
+              <Link
+                to={item.to}
+                className={`navbar__dropdown-item ${pathname === item.to ? 'active' : ''}`}
+                onClick={() => { setOpen(false); onClose(); }}
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,14 +57,17 @@ export default function Navbar() {
     navigate('/login');
   };
 
-  const links = [
-    { to: '/',            label: 'Home' },
-    { to: '/marketplace', label: 'Marketplace' },
-    { to: '/timetable',   label: 'Timetable' },
-    { to: '/events',      label: 'Events' },
+  const academicsLinks = [
+    { to: '/timetable', label: 'Timetable' },
+    { to: '/holidays',  label: 'Holidays & Calendar' },
+  ];
+
+  const campusLinks = [
     { to: '/mess',        label: 'Mess Menu' },
     { to: '/fruits',      label: 'Fruits & Grocery' },
-    { to: '/holidays',    label: 'Holidays' },
+    { to: '/events',      label: 'Events' },
+    { to: '/marketplace', label: 'Marketplace' },
+    { to: '/lost-found',  label: 'Lost & Found' },
   ];
 
   return (
@@ -34,19 +79,30 @@ export default function Navbar() {
         </Link>
 
         <ul className={`navbar__links ${menuOpen ? 'open' : ''}`}>
-          {links.map(l => (
-            <li key={l.to}>
-              <Link
-                to={l.to}
-                className={`navbar__link ${pathname === l.to ? 'active' : ''}`}
-                onClick={() => setMenuOpen(false)}
-              >
-                {l.label}
-              </Link>
-            </li>
-          ))}
+          <li>
+            <Link
+              to="/"
+              className={`navbar__link ${pathname === '/' ? 'active' : ''}`}
+              onClick={() => setMenuOpen(false)}
+            >
+              Home
+            </Link>
+          </li>
 
-          {/* Vendor / Admin only */}
+          <DropdownMenu
+            label="Academics"
+            items={academicsLinks}
+            pathname={pathname}
+            onClose={() => setMenuOpen(false)}
+          />
+
+          <DropdownMenu
+            label="Campus Life"
+            items={campusLinks}
+            pathname={pathname}
+            onClose={() => setMenuOpen(false)}
+          />
+
           {(user?.role === 'vendor' || user?.role === 'admin') && (
             <li>
               <Link

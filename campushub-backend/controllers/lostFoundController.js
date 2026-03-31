@@ -1,11 +1,21 @@
 const LostFound = require('../models/LostFound');
+const multer = require('multer');
+const ImageKit = require('imagekit');
 
-// GET all items (with optional filters)
+const imagekit = new ImageKit({
+  publicKey:   process.env.IMAGEKIT_PUBLIC_KEY,
+  privateKey:  process.env.IMAGEKIT_PRIVATE_KEY,
+  urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
+});
+
+const upload = multer({ storage: multer.memoryStorage() });
+exports.uploadMiddleware = upload.single('image');
+
+// GET all items
 exports.getAllItems = async (req, res) => {
   try {
     const { type, category, search } = req.query;
     const query = {};
-
     if (type && type !== 'all') query.type = type;
     if (category && category !== 'All Categories') query.category = category;
     if (search) query.title = { $regex: search, $options: 'i' };
@@ -20,14 +30,31 @@ exports.getAllItems = async (req, res) => {
 // POST create new item
 exports.createItem = async (req, res) => {
   try {
-    const item = await LostFound.create(req.body);
+    const { title, description, category, location, date, name, phone, type } = req.body;
+
+    let imageUrl = null;
+    if (req.file) {
+      const uploaded = await imagekit.upload({
+        file:     req.file.buffer,
+        fileName: `lostfound_${Date.now()}_${req.file.originalname}`,
+        folder:   '/lostfound',
+      });
+      imageUrl = uploaded.url;
+    }
+
+    const item = await LostFound.create({
+      type, title, description, category,
+      location, date, name, phone,
+      image: imageUrl,
+    });
+
     res.status(201).json({ success: true, data: item });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
   }
 };
 
-// DELETE item by id
+// DELETE item
 exports.deleteItem = async (req, res) => {
   try {
     await LostFound.findByIdAndDelete(req.params.id);
@@ -37,7 +64,7 @@ exports.deleteItem = async (req, res) => {
   }
 };
 
-// PATCH mark as resolved
+// PATCH resolve
 exports.resolveItem = async (req, res) => {
   try {
     const item = await LostFound.findByIdAndUpdate(
