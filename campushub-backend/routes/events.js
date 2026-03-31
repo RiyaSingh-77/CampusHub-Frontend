@@ -17,10 +17,10 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /api/events  →  anyone can submit (status: pending)
+// POST /api/events  →  auto-approved on submit
 router.post('/', async (req, res) => {
   try {
-    const event = await Event.create({ ...req.body, status: 'pending' });
+    const event = await Event.create({ ...req.body, status: 'approved' });
     res.status(201).json(event);
   } catch (err) {
     res.status(400).json({ message: err.message });

@@ -272,14 +272,14 @@ export default function Events() {
               <div className="modal__success">
                 <div className="modal__success-icon">✅</div>
                 <p className="modal__success-msg">
-                  Your event listing request has been received! Our team will review and publish it on the Events page shortly.
+                  Your event has been submitted and is now live on the Events page!
                 </p>
                 <button className="auth-btn" onClick={handleClose}>Done</button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="modal__form">
                 <p className="modal__subtitle">
-                  Fill in your society and event details. We'll review and add it to the page.
+                  Fill in your society and event details. It will be published immediately.
                 </p>
 
                 <div className="modal__section-label">Society Info</div>
