@@ -109,3 +109,55 @@
   margin-top: 20px;
 }
 .auth-switch a { color: var(--amber-dark); font-weight: 600; }
+
+/* ── Role Selector ── */
+.role-selector {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.role-btn {
+  flex: 1;
+  min-width: 130px;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, color .2s, box-shadow .2s;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.role-btn-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.role-btn-text {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.role-btn:hover {
+  border-color: var(--amber);
+  color: var(--text-primary);
+}
+
+.role-btn--active {
+  border-color: var(--amber);
+  background: rgba(245, 166, 35, 0.12);
+  color: var(--espresso);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.25);
+}
+
+.role-btn--active .role-btn-text {
+  color: var(--amber-dark);
+}

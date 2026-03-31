@@ -1,7 +1,7 @@
 const express = require('express');
 const router  = express.Router();
 const Event   = require('../models/Event');
-const { requireAuth, requireAdmin } = require('../middleware/auth');
+const { requireAuth, requireAdmin, requireRole } = require('../middleware/auth');
 
 // ─────────────────────────────────────────
 // PUBLIC

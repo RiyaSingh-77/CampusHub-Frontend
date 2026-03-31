@@ -61,7 +61,7 @@ const modules = [
 ];
 
 const stats = [
-  { value: '6+', label: 'Modules' },
+  { value: '5+', label: 'Modules' },
   { value: '₹0', label: 'Platform Fee' },
   { value: '24/7', label: 'Access' },
 ];

@@ -38,7 +38,9 @@ export default function Login() {
 
         {error && <div className="auth-error">{error}</div>}
 
-        <form onSubmit={handleSubmit} className="auth-form">
+        <form onSubmit={handleSubmit}
+        className="auth-form"
+        autoComplete="off">
           <div className="form-group">
             <label>Roll Number</label>
             <input
@@ -47,6 +49,7 @@ export default function Login() {
               placeholder="e.g. 23bec083"
               value={form.rollNo}
               onChange={handleChange}
+              autoComplete="new-password"
               required
             />
           </div>
@@ -58,6 +61,7 @@ export default function Login() {
               placeholder="Enter your password"
               value={form.password}
               onChange={handleChange}
+              autoComplete="new-password"
               required
             />
           </div>

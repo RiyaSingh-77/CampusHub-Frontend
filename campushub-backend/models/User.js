@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
   phone:    { type: String, required: true },
   hostel:   { type: String },
   password: { type: String, required: true },
-  role:     { type: String, enum: ['student','admin','society','vendor'], default: 'student' },
+  role:     { type: String, enum: ['student', 'admin', 'vendor', 'mess_incharge', 'society'], default: 'student' },
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', UserSchema);

@@ -1,9 +1,9 @@
-const express   = require('express');
-const router    = express.Router();
-const { requireAuth: auth } = require('../middleware/auth');
-const MessMenu  = require('../models/MessMenu');
-const multer    = require('multer');
-const ImageKit  = require('imagekit');
+const express  = require('express');
+const router   = express.Router();
+const { requireAuth, requireRole } = require('../middleware/auth');
+const MessMenu = require('../models/MessMenu');
+const multer   = require('multer');
+const ImageKit = require('imagekit');
 
 const imagekit = new ImageKit({
   publicKey:   process.env.IMAGEKIT_PUBLIC_KEY,
@@ -13,7 +13,7 @@ const imagekit = new ImageKit({
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-// GET /api/mess?hostel=Girls Hostel
+// GET — public
 router.get('/', async (req, res) => {
   try {
     const { hostel } = req.query;
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/mess/:id
+// GET by id — public
 router.get('/:id', async (req, res) => {
   try {
     const menu = await MessMenu.findById(req.params.id).populate('updatedBy', 'name');
@@ -36,60 +36,75 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST /api/mess  — mess incharge creates/updates weekly text menu
-router.post('/', auth, async (req, res) => {
-  try {
-    const { hostel, week } = req.body;
-    if (!hostel) return res.status(400).json({ message: 'Hostel is required' });
-
-    const menu = await MessMenu.findOneAndUpdate(
-      { hostel },
-      { hostel, week, updatedBy: req.user.id },
-      { upsert: true, new: true }
-    );
-    res.json({ message: 'Menu updated successfully', menu });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// POST /api/mess/upload-image — upload menu as image
-router.post('/upload-image', auth, upload.single('image'), async (req, res) => {
-  try {
-    const { hostel } = req.body;
-    if (!hostel) return res.status(400).json({ message: 'Hostel is required' });
-    if (!req.file) return res.status(400).json({ message: 'Image is required' });
-
-    const fileBase64 = req.file.buffer.toString('base64');
-    const mimeType   = req.file.mimetype; // e.g. image/jpeg
-
-    imagekit.upload({
-      file:     fileBase64,
-      fileName: `mess_${hostel.replace(/\s+/g, '_')}_${Date.now()}.jpg`,
-      folder:   '/mess-menus',
-    }, async (error, result) => {
-      if (error) return res.status(500).json({ message: error.message });
+// POST text menu — mess_incharge or admin only
+router.post(
+  '/',
+  requireAuth,
+  requireRole(['mess_incharge', 'admin']),
+  async (req, res) => {
+    try {
+      const { hostel, week } = req.body;
+      if (!hostel) return res.status(400).json({ message: 'Hostel is required' });
 
       const menu = await MessMenu.findOneAndUpdate(
         { hostel },
-        { hostel, menuImage: result.url, updatedBy: req.user.id },
+        { hostel, week, updatedBy: req.user.id },
         { upsert: true, new: true }
       );
-      res.json({ message: 'Menu image uploaded successfully', menuImage: result.url, menu });
-    });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+      res.json({ message: 'Menu updated successfully', menu });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
   }
-});
+);
 
-// DELETE /api/mess/:id — remove a menu entry
-router.delete('/:id', auth, async (req, res) => {
-  try {
-    await MessMenu.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Menu deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+// POST image upload — mess_incharge or admin only
+router.post(
+  '/upload-image',
+  requireAuth,
+  requireRole(['mess_incharge', 'admin']),
+  upload.single('image'),
+  async (req, res) => {
+    try {
+      const { hostel } = req.body;
+      if (!hostel) return res.status(400).json({ message: 'Hostel is required' });
+      if (!req.file) return res.status(400).json({ message: 'Image is required' });
+
+      const fileBase64 = req.file.buffer.toString('base64');
+
+      imagekit.upload({
+        file:     fileBase64,
+        fileName: `mess_${hostel.replace(/\s+/g, '_')}_${Date.now()}.jpg`,
+        folder:   '/mess-menus',
+      }, async (error, result) => {
+        if (error) return res.status(500).json({ message: error.message });
+
+        const menu = await MessMenu.findOneAndUpdate(
+          { hostel },
+          { hostel, menuImage: result.url, updatedBy: req.user.id },
+          { upsert: true, new: true }
+        );
+        res.json({ message: 'Menu image uploaded successfully', menuImage: result.url, menu });
+      });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
   }
-});
+);
+
+// DELETE — mess_incharge or admin only
+router.delete(
+  '/:id',
+  requireAuth,
+  requireRole(['mess_incharge', 'admin']),
+  async (req, res) => {
+    try {
+      await MessMenu.findByIdAndDelete(req.params.id);
+      res.json({ message: 'Menu deleted successfully' });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  }
+);
 
 module.exports = router;
