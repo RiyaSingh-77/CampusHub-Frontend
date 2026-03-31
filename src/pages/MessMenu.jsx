@@ -43,7 +43,7 @@ export default function MessMenu() {
 
   // Check if user is mess incharge or admin
   const isIncharge = user?.role === "mess_incharge" || user?.role === "admin";
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { fetchMenus(); }, [selectedHostel]);
 
   async function fetchMenus() {

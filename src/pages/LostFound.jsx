@@ -29,7 +29,7 @@ export default function LostFound() {
     title:'', description:'', category:'', location:'',
     date:'', name:'', phone:''
   });
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { fetchItems(); }, [filter, category, search]);
 
   async function fetchItems() {
