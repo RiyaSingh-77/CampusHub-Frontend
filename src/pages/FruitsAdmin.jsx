@@ -196,7 +196,7 @@ const FruitsAdmin = () => {
                       <td>
                         {p.imageUrl ? (
                           <img
-                            src={`${process.env.REACT_APP_API_URL  || 'http://localhost:5000'}${p.imageUrl}`}
+                            src={p.imageUrl}
                             alt={p.name}
                             className="fadmin-thumb"
                           />

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const API = process.env.REACT_APP_API_URL  || "http://localhost:5000";
+const API = `${process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}`;
 
 const HOSTELS = [ "Ambika Girls Hostel","Parvati Girls Hostel", "Satpura Girls Hostel", "Manimahesh Girls Hostel", "Kailash Boys Hostel", "Himadri Boys Hostel", "Neelkanth Boys Hostel","Dhauladhar Boys Hostel", "Himgiri Boys Hostel" ];
 const DAYS    = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
@@ -49,7 +49,7 @@ export default function MessMenu() {
   async function fetchMenus() {
     setLoading(true);
     try {
-      const res = await axios.get(`${API}/api/mess?hostel=${encodeURIComponent(selectedHostel)}`);
+      const res = await axios.get(`${API}/mess?hostel=${encodeURIComponent(selectedHostel)}`);
       setMenus(res.data);
       if (res.data[0]?.week) setEditWeek(res.data[0].week);
       else setEditWeek({});
@@ -72,7 +72,7 @@ export default function MessMenu() {
   async function handleSaveMenu() {
     setSaving(true);
     try {
-      await axios.post(`${API}/api/mess`,
+      await axios.post(`${API}/mess`,
         { hostel: selectedHostel, week: editWeek },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -90,7 +90,7 @@ export default function MessMenu() {
     formData.append("image", imageFile);
     formData.append("hostel", selectedHostel);
     try {
-      await axios.post(`${API}/api/mess/upload-image`, formData, {
+      await axios.post(`${API}/mess/upload-image`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
