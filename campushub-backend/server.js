@@ -12,7 +12,11 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'https://campus-hub-frontend-lemon.vercel.app'
+  ],
   credentials: true
 }));
 
@@ -27,6 +31,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/mess', messRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/lost-found', lostFoundRoutes);
+
 // Health check
 app.get('/', (req, res) => res.json({ message: 'CampusHub API running' }));
 
