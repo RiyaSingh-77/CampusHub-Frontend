@@ -11,7 +11,7 @@ const SOCIETY_COLORS = [
   { color: '#00897B', bg: '#E0F4F2' },
 ];
 
-const ALL_TAGS = ['All', 'Hackathon', 'Tech Fest', 'Cultural', 'Electronics', 'AI/ML', 'Competitions', 'Innovation', 'Open Source'];
+const ALL_TAGS = ['All', 'Hackathons', 'Tech Fest', 'Cultural', 'Electronics', 'AI/ML', 'Competitions', 'Innovation', 'Open Source', 'Other'];
 
 const EMPTY_FORM = {
   societyName: '', societyAbbr: '', contactEmail: '',
@@ -292,7 +292,7 @@ export default function Events() {
                 <div className="modal__section-label">Event Details</div>
                 <div className="form-group">
                   <label>Event Title</label>
-                  <input type="text" placeholder="e.g. Hack on Hills 2026"
+                  <input type="text" placeholder="e.g.  Electrothon"
                     value={form.eventTitle} onChange={e => setForm({ ...form, eventTitle: e.target.value })} required />
                 </div>
 
