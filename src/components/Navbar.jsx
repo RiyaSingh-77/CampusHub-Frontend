@@ -54,6 +54,7 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    setMenuOpen(false);
     navigate('/login');
   };
 
@@ -114,8 +115,29 @@ export default function Navbar() {
               </Link>
             </li>
           )}
+
+          {/* ✅ Mobile-only: user info + logout inside the menu */}
+          {user ? (
+            <li className="navbar__mobile-user">
+              <div className="navbar__mobile-user-info">
+                <span className="navbar__avatar">
+                  {user.name?.charAt(0).toUpperCase()}
+                </span>
+                <span className="navbar__username">{user.name}</span>
+              </div>
+              <button className="navbar__mobile-logout" onClick={handleLogout}>
+                Log out
+              </button>
+            </li>
+          ) : (
+            <li className="navbar__mobile-auth">
+              <Link to="/login" className="btn-ghost" onClick={() => setMenuOpen(false)}>Log in</Link>
+              <Link to="/signup" className="btn-amber" onClick={() => setMenuOpen(false)}>Sign up</Link>
+            </li>
+          )}
         </ul>
 
+        {/* Desktop: actions stay here */}
         <div className="navbar__actions">
           {user ? (
             <>
