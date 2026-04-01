@@ -16,7 +16,7 @@ const categoryMap = {
   'Drafters':      'drafter',
   'Books':         'books',
   'Clothes':       'clothes',
-  'Miscellaneous': 'other',
+  'Miscellaneous': 'miscellaneous',
 };
 
 const typeMap = {
