@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../api';
 import './Marketplace.css';
 
-const CATEGORIES = ['All Items', 'Lab Coats', 'Drafters', 'Books', 'Clothes', 'Electronics', 'Miscellaneous'];
+const CATEGORIES = ['All Items', 'Lab Coats', 'Drafters', 'Books', 'Clothes', 'Miscellaneous'];
 const TYPES      = ['All Types', 'For Sale', 'For Lending'];
 
 const conditionColors = {
@@ -17,7 +17,6 @@ const categoryMap = {
   'Drafters':      'drafter',
   'Books':         'books',
   'Clothes':       'clothes',
-  'Electronics':   'electronics',
   'Miscellaneous': 'other',
 };
 
@@ -27,7 +26,6 @@ const categoryLabel = {
   'drafter':     'Drafter',
   'books':       'Books',
   'clothes':     'Clothes',
-  'electronics': 'Electronics',
   'other':       'Miscellaneous',
 };
 
