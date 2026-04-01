@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../api';
 import './Marketplace.css';
 
-const CATEGORIES = ['All Items', 'Lab Coats', 'Drafters', 'Books', 'Clothes', 'Miscellaneous'];
+const CATEGORIES = ['All Items', 'Lab Coats', 'Drafters', 'Books', 'Clothes', 'Electronics', 'Miscellaneous'];
 const TYPES      = ['All Types', 'For Sale', 'For Lending'];
 
 const conditionColors = {
@@ -11,12 +11,24 @@ const conditionColors = {
   'fair':     { bg: '#FDECEA', color: '#A32D2D', label: 'Fair' },
 };
 
+// Frontend label → DB value (used when filtering)
 const categoryMap = {
   'Lab Coats':     'lab-coat',
   'Drafters':      'drafter',
   'Books':         'books',
   'Clothes':       'clothes',
-  'Miscellaneous': 'miscellaneous',
+  'Electronics':   'electronics',
+  'Miscellaneous': 'other',
+};
+
+// DB value → Frontend label (used when displaying cards)
+const categoryLabel = {
+  'lab-coat':    'Lab Coat',
+  'drafter':     'Drafter',
+  'books':       'Books',
+  'clothes':     'Clothes',
+  'electronics': 'Electronics',
+  'other':       'Miscellaneous',
 };
 
 const typeMap = {
@@ -162,7 +174,8 @@ export default function Marketplace() {
                   </div>
 
                   <div className="listing-card__meta">
-                    <span>🏷️ {l.category}</span>
+                    {/* ✅ categoryLabel maps DB value → readable label */}
+                    <span>🏷️ {categoryLabel[l.category] || l.category}</span>
                     <span>{date}</span>
                   </div>
 
@@ -239,7 +252,7 @@ export default function Marketplace() {
                       <option value="books">Books</option>
                       <option value="clothes">Clothes</option>
                       <option value="electronics">Electronics</option>
-                      <option value="other">Other</option>
+                      <option value="other">Miscellaneous</option>
                     </select>
                   </div>
 
