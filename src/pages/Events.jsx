@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import api from '../api';
 import './Events.css';
 
-// ── Colour palette for DB-sourced societies (cycles through these) ──
 const SOCIETY_COLORS = [
   { color: '#4A90D9', bg: '#EAF3FB' },
   { color: '#27AE60', bg: '#E9F7EF' },
@@ -20,7 +19,6 @@ const EMPTY_FORM = {
   dateEnd: '', venue: '', tags: '', registerUrl: '',
 };
 
-// ── Helper: group flat DB events array into societies ──
 function groupBySociety(events) {
   const map = {};
   events.forEach(e => {
@@ -60,7 +58,6 @@ export default function Events() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError]           = useState('');
 
-  // ── Fetch approved events from backend ──
   useEffect(() => {
     const load = async () => {
       try {
@@ -75,7 +72,6 @@ export default function Events() {
     load();
   }, []);
 
-  // ── Filter logic ──
   const allEvents = societies.flatMap(s => s.events.map(e => ({ ...e, society: s })));
 
   const filtered = allEvents.filter(e => {
@@ -92,7 +88,6 @@ export default function Events() {
     events: filtered.filter(e => e.society.id === s.id),
   })).filter(s => s.events.length > 0);
 
-  // ── Submit form to backend ──
   const handleSubmit = async e => {
     e.preventDefault();
     setSubmitting(true);
@@ -118,7 +113,6 @@ export default function Events() {
     <div className="events-page">
       <div className="container">
 
-        {/* ── Hero Header ── */}
         <div className="events-hero">
           <div className="events-hero__icon">🎯</div>
           <div>
@@ -129,7 +123,6 @@ export default function Events() {
           </div>
         </div>
 
-        {/* ── Toolbar ── */}
         <div className="events-toolbar">
           <div className="search-box">
             <span className="search-box__icon">🔍</span>
@@ -146,7 +139,6 @@ export default function Events() {
           </button>
         </div>
 
-        {/* ── Tag Pills ── */}
         <div className="filter-row">
           {ALL_TAGS.map(tag => (
             <button
@@ -159,12 +151,10 @@ export default function Events() {
           ))}
         </div>
 
-        {/* ── Loading ── */}
         {loading && (
           <div className="empty-state"><p>Loading events...</p></div>
         )}
 
-        {/* ── Empty ── */}
         {!loading && groupedSocieties.length === 0 && (
           <div className="empty-state">
             <span style={{ fontSize: 40 }}>🔍</span>
@@ -172,7 +162,6 @@ export default function Events() {
           </div>
         )}
 
-        {/* ── Societies + Events ── */}
         {!loading && groupedSocieties.length > 0 && (
           <div className="societies-list">
             {groupedSocieties.map(society => (
@@ -243,7 +232,6 @@ export default function Events() {
           </div>
         )}
 
-        {/* ── Society CTA Banner ── */}
         <div className="society-cta">
           <div className="society-cta__icon">📢</div>
           <div className="society-cta__text">
@@ -257,7 +245,6 @@ export default function Events() {
 
       </div>
 
-      {/* ── Submit Event Modal ── */}
       {showModal && (
         <div className="modal-overlay" onClick={handleClose}>
           <div className="modal modal--wide" onClick={e => e.stopPropagation()}>
@@ -334,25 +321,24 @@ export default function Events() {
                     value={form.venue} onChange={e => setForm({ ...form, venue: e.target.value })} required />
                 </div>
 
-                <div className="form-group">
-            <label>Tags</label>
-            <select
-              multiple
-              value={form.tags ? form.tags.split(',').map(t => t.trim()).filter(Boolean) : []}
-              onChange={e => {
-                const selected = Array.from(e.target.selectedOptions, opt => opt.value);
-                setForm({ ...form, tags: selected.join(', ') });
-              }}
-              style={{ height: '120px' }}
-            >
-              {ALL_TAGS.filter(t => t !== 'All').map(tag => (
-                <option key={tag} value={tag}>{tag}</option>
-              ))}
-            </select>
-            <small style={{ color: 'var(--text-muted)' }}>Hold Ctrl / Cmd to select multiple</small>
-      </div>
-
-
+                <div className="modal__row">
+                  <div className="form-group">
+                    <label>Tags</label>
+                    <select
+                      multiple
+                      value={form.tags ? form.tags.split(',').map(t => t.trim()).filter(Boolean) : []}
+                      onChange={e => {
+                        const selected = Array.from(e.target.selectedOptions, opt => opt.value);
+                        setForm({ ...form, tags: selected.join(', ') });
+                      }}
+                      style={{ height: '120px' }}
+                    >
+                      {ALL_TAGS.filter(t => t !== 'All').map(tag => (
+                        <option key={tag} value={tag}>{tag}</option>
+                      ))}
+                    </select>
+                    <small style={{ color: 'var(--text-muted)' }}>Hold Ctrl / Cmd to select multiple</small>
+                  </div>
                   <div className="form-group">
                     <label>Registration Link</label>
                     <input type="url" placeholder="https://forms.google.com/..."
