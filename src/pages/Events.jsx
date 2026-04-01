@@ -334,12 +334,25 @@ export default function Events() {
                     value={form.venue} onChange={e => setForm({ ...form, venue: e.target.value })} required />
                 </div>
 
-                <div className="modal__row">
-                  <div className="form-group">
-                    <label>Tags <span style={{ fontWeight: 400, color: 'var(--text-muted)' }}>(comma separated)</span></label>
-                    <input type="text" placeholder="Hackathon, AI/ML, Open Source"
-                      value={form.tags} onChange={e => setForm({ ...form, tags: e.target.value })} />
-                  </div>
+                <div className="form-group">
+            <label>Tags</label>
+            <select
+              multiple
+              value={form.tags ? form.tags.split(',').map(t => t.trim()).filter(Boolean) : []}
+              onChange={e => {
+                const selected = Array.from(e.target.selectedOptions, opt => opt.value);
+                setForm({ ...form, tags: selected.join(', ') });
+              }}
+              style={{ height: '120px' }}
+            >
+              {ALL_TAGS.filter(t => t !== 'All').map(tag => (
+                <option key={tag} value={tag}>{tag}</option>
+              ))}
+            </select>
+            <small style={{ color: 'var(--text-muted)' }}>Hold Ctrl / Cmd to select multiple</small>
+      </div>
+
+
                   <div className="form-group">
                     <label>Registration Link</label>
                     <input type="url" placeholder="https://forms.google.com/..."
