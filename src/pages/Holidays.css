@@ -1,6 +1,7 @@
 .holidays-page {
   min-height: 100vh;
   background: #f9fafb;
+  overflow-x: hidden; /* ✅ fix */
 }
 
 /* ── Hero Banner ── */
@@ -112,6 +113,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0; /* ✅ fix: don't squish the date badge */
 }
 
 .holiday-date-badge .h-month {
@@ -131,12 +133,14 @@
   align-items: center;
   gap: 10px;
   flex: 1;
+  min-width: 0; /* ✅ fix */
 }
 
 .holiday-icon {
   color: #f59e0b;
   display: flex;
   align-items: center;
+  flex-shrink: 0; /* ✅ fix */
 }
 
 .holiday-name {
@@ -144,6 +148,9 @@
   font-weight: 600;
   color: #111827;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* ✅ fix: truncate if too long */
 }
 
 .holiday-day-label {
@@ -158,6 +165,7 @@
   font-weight: 600;
   padding: 4px 12px;
   border-radius: 999px;
+  flex-shrink: 0; /* ✅ fix: badge never wraps or squishes */
 }
 
 .badge-national {
@@ -208,11 +216,13 @@
 
 .academic-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* ✅ fix: align top when wrapping */
   justify-content: space-between;
   padding: 16px 24px;
   border-bottom: 1px solid #f3f4f6;
   transition: background 0.2s;
+  gap: 12px;
+  flex-wrap: wrap; /* ✅ fix: allow wrapping on small screens */
 }
 
 .academic-row:last-child {
@@ -227,13 +237,15 @@
   font-size: 0.95rem;
   font-weight: 600;
   color: #f59e0b;
-  min-width: 170px;
+  min-width: 120px; /* ✅ fix: reduced from 170px */
+  flex-shrink: 0;
 }
 
 .academic-label {
   flex: 1;
   color: #374151;
   font-size: 0.95rem;
+  min-width: 140px; /* ✅ fix: ensures label wraps before overflowing */
 }
 
 /* ── PDF Download Card ── */
@@ -296,4 +308,28 @@
   color: #9ca3af;
   font-size: 0.8rem;
   margin-top: 12px;
+}
+
+/* ── Mobile fixes ── */
+@media (max-width: 480px) {
+  .holidays-hero h1 {
+    font-size: 1.5rem; /* ✅ fix: hero title too big on small phones */
+  }
+
+  .holiday-card {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .academic-range {
+    min-width: 100%;  /* ✅ fix: date takes full width, label goes below */
+  }
+
+  .academic-label {
+    min-width: 100%;
+  }
+
+  .badge {
+    margin-left: auto;
+  }
 }
