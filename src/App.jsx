@@ -51,7 +51,7 @@ export default function App() {
         <Route path="/lost-found" element={
           <ProtectedRoute><LostFound /></ProtectedRoute>
         } />
-        <Route path="/calendar" element={
+        {/* <Route path="/calendar" element={
           <ProtectedRoute><Calendar /></ProtectedRoute>
         } />
 

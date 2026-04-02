@@ -48,7 +48,7 @@ const modules = [
     bg: '#ECFEFF',
     title: 'Academic Calendar',
     desc: 'Semester schedule, holidays, exam dates — your entire academic year mapped out clearly.',
-    to: '/calendar',
+    to: '/holidays',
   },
   /*{
     icon: '📋',
