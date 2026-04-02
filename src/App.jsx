@@ -14,7 +14,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import FruitsAdmin from "./pages/FruitsAdmin";
 import Holidays from "./pages/Holidays";
 import LostFound from './pages/LostFound';
-import Calendar from './pages/Calendar';
 import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
@@ -50,9 +49,6 @@ export default function App() {
         } />
         <Route path="/lost-found" element={
           <ProtectedRoute><LostFound /></ProtectedRoute>
-        } />
-        {/* <Route path="/calendar" element={
-          <ProtectedRoute><Calendar /></ProtectedRoute>
         } />
 
         {/* ── PROTECTED (role-restricted) ── */}
