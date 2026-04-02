@@ -1,7 +1,7 @@
 .holidays-page {
   min-height: 100vh;
   background: #f9fafb;
-  overflow-x: hidden; /* ✅ fix */
+  overflow-x: hidden;
 }
 
 /* ── Hero Banner ── */
@@ -96,6 +96,7 @@
   border-radius: 14px;
   padding: 16px 20px;
   transition: all 0.2s;
+  flex-wrap: nowrap; /* keep on one row on desktop */
 }
 
 .holiday-card:hover {
@@ -108,12 +109,13 @@
   color: #000;
   border-radius: 10px;
   width: 56px;
+  min-width: 56px; /* ✅ never shrink */
   height: 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0; /* ✅ fix: don't squish the date badge */
+  flex-shrink: 0;
 }
 
 .holiday-date-badge .h-month {
@@ -133,14 +135,15 @@
   align-items: center;
   gap: 10px;
   flex: 1;
-  min-width: 0; /* ✅ fix */
+  min-width: 0; /* ✅ allows text to shrink */
+  overflow: hidden;
 }
 
 .holiday-icon {
   color: #f59e0b;
   display: flex;
   align-items: center;
-  flex-shrink: 0; /* ✅ fix */
+  flex-shrink: 0;
 }
 
 .holiday-name {
@@ -148,9 +151,11 @@
   font-weight: 600;
   color: #111827;
   margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* ✅ fix: truncate if too long */
+  /* ✅ allow wrapping instead of truncating — fixes mobile overlap */
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  word-break: break-word;
 }
 
 .holiday-day-label {
@@ -165,7 +170,9 @@
   font-weight: 600;
   padding: 4px 12px;
   border-radius: 999px;
-  flex-shrink: 0; /* ✅ fix: badge never wraps or squishes */
+  flex-shrink: 0;
+  white-space: nowrap; /* ✅ badge text never breaks */
+  margin-left: auto;   /* ✅ push badge to far right */
 }
 
 .badge-national {
@@ -216,13 +223,13 @@
 
 .academic-row {
   display: flex;
-  align-items: flex-start; /* ✅ fix: align top when wrapping */
+  align-items: flex-start;
   justify-content: space-between;
   padding: 16px 24px;
   border-bottom: 1px solid #f3f4f6;
   transition: background 0.2s;
   gap: 12px;
-  flex-wrap: wrap; /* ✅ fix: allow wrapping on small screens */
+  flex-wrap: wrap;
 }
 
 .academic-row:last-child {
@@ -237,7 +244,7 @@
   font-size: 0.95rem;
   font-weight: 600;
   color: #f59e0b;
-  min-width: 120px; /* ✅ fix: reduced from 170px */
+  min-width: 120px;
   flex-shrink: 0;
 }
 
@@ -245,7 +252,7 @@
   flex: 1;
   color: #374151;
   font-size: 0.95rem;
-  min-width: 140px; /* ✅ fix: ensures label wraps before overflowing */
+  min-width: 140px;
 }
 
 /* ── PDF Download Card ── */
@@ -313,23 +320,34 @@
 /* ── Mobile fixes ── */
 @media (max-width: 480px) {
   .holidays-hero h1 {
-    font-size: 1.5rem; /* ✅ fix: hero title too big on small phones */
+    font-size: 1.5rem;
   }
 
   .holiday-card {
     padding: 12px 14px;
     gap: 10px;
+    flex-wrap: wrap; /* ✅ allow badge to go below on very small screens */
+  }
+
+  .holiday-info {
+    /* on mobile: info + badge sit together, date badge stays left */
+    flex: 1;
+    min-width: 0;
+  }
+
+  .holiday-name {
+    font-size: 0.9rem;
+  }
+
+  .badge {
+    margin-left: 0;
   }
 
   .academic-range {
-    min-width: 100%;  /* ✅ fix: date takes full width, label goes below */
+    min-width: 100%;
   }
 
   .academic-label {
     min-width: 100%;
-  }
-
-  .badge {
-    margin-left: auto;
   }
 }
