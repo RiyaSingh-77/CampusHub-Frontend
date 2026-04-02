@@ -16,18 +16,6 @@ import Holidays from "./pages/Holidays";
 import LostFound from './pages/LostFound';
 import Calendar from './pages/Calendar';
 
-function ComingSoon({ title }) {
-  return (
-    <div style={{ padding: '80px 24px', textAlign: 'center' }}>
-      <p style={{ fontSize: 48, marginBottom: 16 }}>🚧</p>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 28, color: 'var(--espresso)', marginBottom: 8 }}>
-        {title}
-      </h2>
-      <p style={{ color: 'var(--text-secondary)' }}>Coming soon — this page is in progress.</p>
-    </div>
-  );
-}
-
 export default function App() {
   return (
     <BrowserRouter>
