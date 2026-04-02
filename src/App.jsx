@@ -15,11 +15,14 @@ import FruitsAdmin from "./pages/FruitsAdmin";
 import Holidays from "./pages/Holidays";
 import LostFound from './pages/LostFound';
 import Calendar from './pages/Calendar';
+import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Navbar />
+      <ScrollToTop />
+
       <Routes>
         {/* ── PUBLIC ── */}
         <Route path="/"       element={<Home />} />
