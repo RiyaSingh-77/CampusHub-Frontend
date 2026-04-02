@@ -14,6 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import FruitsAdmin from "./pages/FruitsAdmin";
 import Holidays from "./pages/Holidays";
 import LostFound from './pages/LostFound';
+import Calendar from './pages/Calendar';
 
 function ComingSoon({ title }) {
   return (
@@ -60,7 +61,7 @@ export default function App() {
           <ProtectedRoute><LostFound /></ProtectedRoute>
         } />
         <Route path="/calendar" element={
-          <ProtectedRoute><ComingSoon title="Academic Calendar" /></ProtectedRoute>
+          <ProtectedRoute><Calendar /></ProtectedRoute>
         } />
 
         {/* ── PROTECTED (role-restricted) ── */}
