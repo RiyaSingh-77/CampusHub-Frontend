@@ -94,29 +94,52 @@
 .lf-delete-btn  { flex: 1; padding: 11px; background: #fef2f2; color: #dc2626; border: 1.5px solid #fca5a5; border-radius: 8px; font-weight: 600; cursor: pointer; }
 .lf-delete-btn:hover { background: #fee2e2; }
 
-/* ── Image Upload Zone (NEW) ───────────────────────────── */
+/* ── Image Upload Zone ── */
 .lf-upload-zone {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 3px;
   height: 90px;
+  width: 100%;           /* ✅ fill the grid cell */
+  box-sizing: border-box; /* ✅ padding included in width */
   border: 2px dashed #e5e7eb;
   border-radius: 8px;
   cursor: pointer;
   background: #fafafa;
   transition: border-color 0.18s, background 0.18s;
-  padding: 10px;
-  box-sizing: border-box;
+  padding: 8px;
+  overflow: hidden;       /* ✅ nothing escapes the box */
 }
 .lf-upload-zone:hover {
   border-color: #f97316;
   background: #fff7ed;
 }
-.lf-upload-icon { font-size: 22px; }
-.lf-upload-text { font-size: 0.82rem; font-weight: 600; color: #374151; }
-.lf-upload-hint { font-size: 0.73rem; color: #9ca3af; }
+.lf-upload-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.lf-upload-text {
+  font-size: 0.78rem;   /* ✅ smaller so it fits on one line */
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+  white-space: nowrap;  /* ✅ prevent wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.lf-upload-hint {
+  font-size: 0.68rem;   /* ✅ smaller hint text */
+  color: #9ca3af;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
 
 /* Image preview inside the form */
 .lf-img-preview-wrap {
@@ -125,6 +148,8 @@
   overflow: hidden;
   border: 1.5px solid #e5e7eb;
   height: 90px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .lf-img-preview {
   width: 100%;
@@ -146,3 +171,28 @@
   font-weight: 600;
 }
 .lf-img-clear:hover { background: rgba(220,38,38,0.85); }
+
+/* ── Mobile fixes ── */
+@media (max-width: 480px) {
+  .lf-modal {
+    padding: 20px 16px 20px;
+  }
+
+  /* ✅ stack the two-column rows on mobile so upload zone gets full width */
+  .lf-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .lf-upload-zone {
+    height: 80px;
+  }
+
+  .lf-upload-text {
+    white-space: normal;   /* allow wrap on full-width mobile */
+    text-align: center;
+  }
+
+  .lf-upload-hint {
+    white-space: normal;
+  }
+}

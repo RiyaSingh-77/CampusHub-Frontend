@@ -125,30 +125,41 @@ export default function Timetable() {
           </div>
         )}
 
-        {/* PDF viewer */}
+        {/* ✅ Compact PDF card — no iframe */}
         {!loading && timetable?.pdfUrl && (
           <div className="tt-card">
             <div className="tt-card__header">
-              <h2 className="tt-card__heading">
-                {branch} — Year {year}, Section {section}
-              </h2>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div>
+                <h2 className="tt-card__heading">
+                  {branch} — Year {year}, Section {section}
+                </h2>
                 {timetable.uploadedBy && (
                   <span className="tt-uploaded-by">
                     Uploaded by {timetable.uploadedBy.name}
                   </span>
                 )}
-                <button className="tt-delete-btn" onClick={handleDeletePdf}>
-                  🗑️ Remove PDF
-                </button>
               </div>
+              <button className="tt-delete-btn" onClick={handleDeletePdf}>
+                🗑️ Remove PDF
+              </button>
             </div>
-            <div className="tt-pdf-viewer">
-              <iframe
-                src={`${timetable.pdfUrl}?tr=orig-true`}
-                title="Timetable PDF"
-                className="tt-pdf-frame"
-              />
+
+            {/* Compact PDF action row */}
+            <div className="tt-pdf-compact">
+              <div className="tt-pdf-compact__info">
+                <span className="tt-pdf-compact__icon">📄</span>
+                <span className="tt-pdf-compact__label">
+                  Timetable PDF available
+                </span>
+              </div>
+              <a
+                href={`${timetable.pdfUrl}?tr=orig-true`}
+                target="_blank"
+                rel="noreferrer"
+                className="tt-open-btn"
+              >
+                🔗 Open PDF
+              </a>
             </div>
           </div>
         )}

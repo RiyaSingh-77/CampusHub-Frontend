@@ -54,6 +54,11 @@
   padding: 20px 24px;
   border-bottom: 1px solid var(--border);
   background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .tt-card__heading {
@@ -64,7 +69,7 @@
 
 .tt-scroll {
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 .tt-table {
@@ -175,16 +180,11 @@
 .tt-uploaded-by {
   font-size: 12px;
   color: var(--text-muted);
+  margin-top: 2px;
+  display: block;
 }
 
-.tt-pdf-viewer { padding: 0; }
-
-.tt-pdf-frame {
-  width: 100%;
-  height: 600px;
-  border: none;
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-}
+/* ── Removed: tt-pdf-viewer and tt-pdf-frame (iframe gone) ── */
 
 .tt-upload-cta {
   display: flex;
@@ -282,6 +282,7 @@
   background: var(--terra-light);
   color: var(--terra);
 }
+
 .tt-delete-btn {
   padding: 6px 14px;
   border-radius: var(--radius-sm);
@@ -291,5 +292,51 @@
   font-weight: 600;
   border: 1px solid #f5c6c6;
   transition: background .15s;
+  white-space: nowrap;
 }
 .tt-delete-btn:hover { background: #fbd5d5; }
+
+/* ── Compact PDF action row (replaces iframe) ── */
+.tt-pdf-compact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  flex-wrap: wrap;
+}
+
+.tt-pdf-compact__info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tt-pdf-compact__icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.tt-pdf-compact__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.tt-open-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 22px;
+  border-radius: var(--radius-md);
+  background: var(--amber, #f59e0b);
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .15s;
+}
+.tt-open-btn:hover {
+  background: var(--amber-dark, #d97706);
+}
