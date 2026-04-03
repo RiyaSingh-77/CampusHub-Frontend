@@ -96,7 +96,7 @@
   border-radius: 14px;
   padding: 16px 20px;
   transition: all 0.2s;
-  flex-wrap: nowrap; /* keep on one row on desktop */
+  flex-wrap: nowrap;
 }
 
 .holiday-card:hover {
@@ -109,7 +109,7 @@
   color: #000;
   border-radius: 10px;
   width: 56px;
-  min-width: 56px; /* ✅ never shrink */
+  min-width: 56px;
   height: 56px;
   display: flex;
   flex-direction: column;
@@ -135,7 +135,7 @@
   align-items: center;
   gap: 10px;
   flex: 1;
-  min-width: 0; /* ✅ allows text to shrink */
+  min-width: 0;
   overflow: hidden;
 }
 
@@ -151,11 +151,11 @@
   font-weight: 600;
   color: #111827;
   margin: 0;
-  /* ✅ allow wrapping instead of truncating — fixes mobile overlap */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: normal;
+  white-space: normal;      /* allow line wrapping */
+  word-break: keep-all;     /* never break mid-word */
+  overflow-wrap: normal;    /* don't force breaks */
+  text-overflow: unset;
+  overflow: visible;
 }
 
 .holiday-day-label {
@@ -171,8 +171,8 @@
   padding: 4px 12px;
   border-radius: 999px;
   flex-shrink: 0;
-  white-space: nowrap; /* ✅ badge text never breaks */
-  margin-left: auto;   /* ✅ push badge to far right */
+  white-space: nowrap;
+  margin-left: auto;
 }
 
 .badge-national {
@@ -324,23 +324,19 @@
   }
 
   .holiday-card {
-    padding: 12px 14px;
-    gap: 10px;
-    flex-wrap: wrap; /* ✅ allow badge to go below on very small screens */
+    padding: 10px 12px;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
   .holiday-info {
-    /* on mobile: info + badge sit together, date badge stays left */
-    display: flex;
-    align-items: center;
-    gap: 10px;
     flex: 1;
     min-width: 0;
-    overflow: hidden;
   }
 
   .holiday-name {
-    font-size: 0.9rem;
+    font-size: 0.85rem;     /* slightly smaller so long names fit */
+    word-break: keep-all;   /* still no mid-word breaks */
   }
 
   .badge {
