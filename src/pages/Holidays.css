@@ -136,7 +136,7 @@
   gap: 10px;
   flex: 1;
   min-width: 0;
-  overflow: hidden;
+  overflow: visible; /* ✅ don't clip text */
 }
 
 .holiday-icon {
@@ -151,11 +151,12 @@
   font-weight: 600;
   color: #111827;
   margin: 0;
-  white-space: normal;      /* allow line wrapping */
-  word-break: keep-all;     /* never break mid-word */
-  overflow-wrap: normal;    /* don't force breaks */
-  text-overflow: unset;
-  overflow: visible;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word; /* ✅ wrap long words */
+  hyphens: auto;             /* ✅ add hyphen at break point */
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
 }
 
 .holiday-day-label {
@@ -325,22 +326,26 @@
 
   .holiday-card {
     padding: 10px 12px;
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: 10px;
+    flex-wrap: nowrap;
   }
 
   .holiday-info {
     flex: 1;
     min-width: 0;
+    overflow: visible;
   }
 
   .holiday-name {
-    font-size: 0.85rem;     /* slightly smaller so long names fit */
-    word-break: keep-all;   /* still no mid-word breaks */
+    font-size: 0.9rem;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    overflow-wrap: break-word;
   }
 
   .badge {
-    margin-left: 0;
+    margin-left: auto;
+    flex-shrink: 0;
   }
 
   .academic-range {
