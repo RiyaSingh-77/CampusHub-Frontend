@@ -50,18 +50,18 @@ const modules = [
     desc: 'Semester schedule, holidays, exam dates — your entire academic year mapped out clearly.',
     to: '/holidays',
   },
-  /*{
-    icon: '📋',
-    color: '#C0392B',
-    bg: '#FDECEA',
-    title: 'Online Registration',
-    desc: 'Register for events, workshops and courses with a single tap. Track your registrations easily.',
-    to: '/register',
-  }, */
+  {
+    icon: '🔍',
+    color: '#EA580C',
+    bg: '#FFF7ED',
+    title: 'Lost & Found',
+    desc: 'Lost something on campus? Found an item? Post it here and help fellow NITHians reconnect with their belongings.',
+    to: '/lost-found',
+  },
 ];
 
 const stats = [
-  { value: '5+', label: 'Modules' },
+  { value: '6+', label: 'Modules' },
   { value: '₹0', label: 'Platform Fee' },
   { value: '24/7', label: 'Access' },
 ];
